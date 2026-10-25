@@ -9,8 +9,16 @@ export function taskCard(task, { onOpen, onMove, index, list }) {
   card.setAttribute("aria-label", "Open task: " + task.title);
   card.querySelector("h3").textContent = task.title;
   const tag = card.querySelector(".task-tag");
-  tag.textContent = ["To do", "In motion", "Completed"][task.stage];
-  tag.classList.add("tag-" + task.stage);
+  tag.textContent = task.done
+    ? "Completed"
+    : task.stage_name === "In Progress"
+      ? "In motion"
+      : task.stage_name && task.stage_name !== "Not Started"
+        ? task.stage_name
+        : "To do";
+  tag.classList.add(
+    "tag-" + (task.done ? 2 : task.stage_name === "In Progress" ? 1 : 0),
+  );
   card.querySelector("[data-excerpt]").textContent = textFromHtml(
     task.description,
   );

@@ -79,6 +79,7 @@ export async function loadBoard(project, signal) {
         ...task,
         project: task.project_id,
         stage: stages.findIndex((stage) => stage.id === task.stage_id),
+        stage_name: stages.find((stage) => stage.id === task.stage_id)?.name,
         description: sanitizeRichText(task.description),
       })),
     };
