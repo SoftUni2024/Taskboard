@@ -54,11 +54,14 @@ export async function mount(root, { id }) {
       column.className = "board-column stage-" + index;
       column.setAttribute("aria-label", stage);
       column.innerHTML =
-        '<div class="column-heading"><h2><span class="stage-dot"></span><span data-stage></span><small></small></h2><button class="btn btn-sm">＋</button></div><div class="column-cards"></div><button class="column-add">＋ Add task</button>';
+        '<div class="column-heading"><h2><span class="stage-dot"></span><span data-stage></span><small></small></h2><button type="button" class="btn btn-sm">＋</button></div><div class="column-cards"></div><button type="button" class="column-add"><span aria-hidden="true">＋</span><span>Add New Task</span></button>';
       column
         .querySelector(".column-heading button")
         .setAttribute("aria-label", `Add task to ${stage}`);
       column.querySelector("[data-stage]").textContent = stage;
+      column
+        .querySelector(".column-add")
+        .setAttribute("aria-label", `Add New Task to ${stage}`);
       column.querySelector("h2 small").textContent = list.length;
       column
         .querySelectorAll("button")

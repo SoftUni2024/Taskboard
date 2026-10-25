@@ -32,8 +32,11 @@ export function openDialog({
     },
     { once: true },
   );
+  let submitting = false;
   root.querySelector("form").addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (submitting || !onSubmit) return;
+    submitting = true;
     const buttons = [...root.querySelectorAll("button")];
     buttons.forEach((b) => (b.disabled = true));
     if (submit) submit.textContent = "Saving…";
@@ -43,18 +46,26 @@ export function openDialog({
     } catch (e) {
       notifyError(e);
     } finally {
+      submitting = false;
       buttons.forEach((b) => (b.disabled = false));
       if (submit) submit.textContent = submitLabel;
     }
   });
+  let shown = false;
   onMount?.(root, modal);
   root.addEventListener(
     "shown.bs.modal",
-    () => root.querySelector("input,[contenteditable],button")?.focus(),
+    () => {
+      shown = true;
+      (root.querySelector("input,[contenteditable]") || root.querySelector("button"))?.focus();
+    },
     { once: true },
   );
   modal.show();
-  return { root, hide: () => modal.hide() };
+  return { root, hide: () => {
+    if (shown) modal.hide();
+    else root.addEventListener('shown.bs.modal', () => modal.hide(), {once:true});
+  } };
 }
 export function closeDialogs() {
   for (const modal of openDialogs) modal.hide();

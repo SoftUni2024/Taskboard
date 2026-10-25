@@ -1,10 +1,10 @@
 import template from "./task-form.html?raw";
 import "./task-form.css";
 import { openDialog, confirmDelete } from "../dialog/dialog.js";
-import { api, notify } from "../../services/api.js";
+import { api, notify, notifyError } from "../../services/api.js";
 export function taskForm(project, task, stage, onSaved, stages) {
   const dialog = openDialog({
-    title: task ? "Task details" : "Add a task",
+    title: task ? "Edit task" : "Add New Task",
     body: template,
     submitLabel: task ? "Save changes" : "Create task",
     extra: task
@@ -42,28 +42,39 @@ export function taskForm(project, task, stage, onSaved, stages) {
         );
       };
       root.querySelector("[data-delete]")?.addEventListener("click", () => {
-        dialog.hide();
-        confirmDelete(
-          "Delete task?",
-          `Permanently delete “${task.title}”? This cannot be undone.`,
-          async () => {
-            await api("deleteTask", { project, id: task.id });
-            notify("Task deleted");
-            await onSaved();
-          },
+        root.addEventListener(
+          "hidden.bs.modal",
+          () =>
+            confirmDelete(
+              "Delete task?",
+              `Permanently delete “${task.title}”? This cannot be undone.`,
+              async () => {
+                await api("deleteTask", { project, id: task.id });
+                notify("Task deleted");
+                await onSaved().catch(notifyError);
+              },
+            ),
+          { once: true },
         );
+        dialog.hide();
       });
     },
     async onSubmit(form, root) {
+      const title = String(form.get("title") || "").trim();
+      if (!title) {
+        root.querySelector("[name=title]").focus();
+        throw new Error("Enter a task title.");
+      }
       await api(task ? "editTask" : "createTask", {
         ...Object.fromEntries(form),
+        title,
         stage: Number(form.get("stage")),
         description: root.querySelector(".task-editor").innerHTML,
         project,
         id: task?.id,
       });
       notify(task ? "Task updated" : "Task created");
-      await onSaved();
+      await onSaved().catch(notifyError);
     },
   });
   return dialog;
