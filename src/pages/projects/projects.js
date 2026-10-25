@@ -35,7 +35,7 @@ export async function mount(root) {
     for (const project of visible) {
       const row = document.createElement("tr");
       row.innerHTML =
-        '<td><a class="project-title-link" data-link></a></td><td><span class="project-description"></span></td><td class="text-center"><span class="project-number" data-stages></span></td><td class="text-center"><span class="project-number open-number" data-open></span></td><td class="text-center"><span class="project-number done-number" data-done></span></td><td><div class="project-row-actions"><a class="view-tasks-link" data-link>View Tasks →</a><a data-edit data-link>Edit</a><button type="button" class="delete-project">Delete</button></div></td>';
+        '<td><a class="project-title-link" data-link></a></td><td><span class="project-description"></span></td><td class="text-center"><span class="project-number" data-stages></span></td><td class="text-center"><span class="project-number open-number" data-open></span></td><td class="text-center"><span class="project-number done-number" data-done></span></td><td><div class="project-row-actions"><a class="view-tasks-link" data-link>View Tasks →</a><a data-members data-link>Members</a><a data-edit data-link>Edit</a><button type="button" class="delete-project">Delete</button></div></td>';
       const tasksUrl = `/project/${project.id}/tasks`;
       row.querySelector(".project-title-link").textContent = project.title;
       row.querySelector(".project-title-link").href = tasksUrl;
@@ -59,6 +59,14 @@ export async function mount(root) {
         .querySelector("button")
         .setAttribute("aria-label", `Delete ${project.title}`);
       row.querySelector("button").onclick = () => remove(project);
+      row.querySelector("[data-members]").href =
+        "/projects/" + project.id + "/users";
+      row
+        .querySelector("[data-members]")
+        .setAttribute("aria-label", "Members of " + project.title);
+      const owner = project.owner === data.user.id;
+      row.querySelector("[data-edit]").hidden = !owner;
+      row.querySelector("button").hidden = !owner;
       body.append(row);
     }
     if (!visible.length) {

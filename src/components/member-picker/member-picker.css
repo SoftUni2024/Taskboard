@@ -1,0 +1,30 @@
+.member-picker-list {
+  list-style: none;
+  padding: 0;
+  max-height: 330px;
+  overflow: auto;
+  margin: 0;
+}
+.member-picker-list li {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.member-picker-list strong,
+.member-picker-list small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.member-picker-list strong {
+  font-size: 13px;
+}
+.member-picker-list small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.member-picker-list button {
+  flex-shrink: 0;
+}

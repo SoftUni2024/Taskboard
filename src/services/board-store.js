@@ -126,6 +126,15 @@ export async function mutateBoard(action, values) {
     };
   }
   if (!project) throw new Error("Project is required.");
+  if (action === "editProject" || action === "deleteProject") {
+    const record = await result(
+      supabase.from("projects").select("owner_id").eq("id", project).single(),
+    );
+    if (record.owner_id !== user.id)
+      throw new Error(
+        "Only the project owner can edit or delete this project.",
+      );
+  }
   if (action === "editProject") {
     await result(
       supabase

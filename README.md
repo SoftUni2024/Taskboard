@@ -24,12 +24,12 @@ Open `http://127.0.0.1:5173`. Browser configuration in `src/services/supabase.js
 | `/projects` | Searchable project table with descriptions, stage counts, and open/done task totals |
 | `/project/add` | Create a project with three default stages |
 | `/project/{id}/edit` | Edit an owned project's title and description |
-| `/project/{id}/tasks` | Current user's project board |
+| `/project/{id}/tasks` | Owned or assigned project board |
 | `/account` | Display-name settings and logout |
 
 Registration accepts a display name, email, password, and matching password confirmation. Supabase email confirmations are disabled for this project, so registration establishes a session immediately. Successful registration/login redirects to `/dashboard`. Logout clears the current app session and returns to `/`. Sessions persist across refreshes and refresh automatically; logout is synchronized across tabs.
 
-Protected pages redirect signed-out visitors to `/login`. Supabase RLS independently enforces access to each user's own projects, stages, and tasks. No project-members table or member management is used.
+Protected pages redirect signed-out visitors to `/login`. Supabase RLS independently enforces owner/member access to projects, stages, tasks, and attachments. Project owners manage membership.
 
 Dashboard is the signed-in home page. It shows the project count (linked to Projects), total task count, open task count, and done task count across the current user's projects. Open tasks are all tasks whose completion flag is false. The header links signed-in users to Dashboard and Projects; the brand returns them to Dashboard.
 
@@ -73,3 +73,5 @@ Tests cover Auth service behavior, registration-session requirements, expired se
 Sites configuration is in `.openai/hosting.json`. The Cloudflare Vite plugin builds `dist/client` and `dist/server`. The Site remains private under its existing hosting access policy. The hosting sign-in gate is separate from Task Board's Supabase email/password login. Supabase migrations are applied to Supabase separately from Site deployments; do not put them in the legacy D1 migration folder.
 
 Task attachments use the private Supabase Storage bucket `task-attachments`. Open an existing task to upload screenshots or documents (10 MB per file), download them, or confirm removal. Create new tasks before adding files. Uploads save immediately, independently of task detail edits. Supported formats are PNG, JPEG, GIF, WebP, PDF, TXT, CSV, Markdown, Word, Excel, PowerPoint, and ODT. Storage RLS checks the signed-in user and the owning project/task for every operation; bucket restrictions also enforce MIME types and file size. The app removes stored files before deleting their task or project. Deleting rows directly outside the app requires separate Storage cleanup.
+
+Project membership is managed at `/projects/{id}/users`. Owners can search app users, assign members, and confirm removals. Members share stage/task/attachment access; project editing, deletion and membership changes remain owner-only. RLS uses private, current-user helpers to avoid recursive policy evaluation. Auth directory RPCs require ownership and expose only display names and emails. `node scripts/test-project-members.mjs` runs live owner/member/outsider access checks against an isolated temporary project using the sample users, then cleans up.

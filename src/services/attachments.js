@@ -17,7 +17,10 @@ async function prefix(project, task) {
   } = await supabase.auth.getUser();
   if (error) throw error;
   if (!user) throw new Error("Sign in to continue.");
-  return `${user.id}/${project}/${task}`;
+  const record = await value(
+    supabase.from("projects").select("owner_id").eq("id", project).single(),
+  );
+  return `${record.owner_id}/${project}/${task}`;
 }
 export async function listAttachments(project, task) {
   const folder = await prefix(project, task),

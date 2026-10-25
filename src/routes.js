@@ -27,6 +27,11 @@ const routes = [
     protected: true,
   },
   {
+    pattern: /^\/projects\/([^/]+)\/users$/,
+    load: () => import("./pages/project-users/project-users.js"),
+    protected: true,
+  },
+  {
     pattern: /^\/account$/,
     load: () => import("./pages/account/account.js"),
     protected: true,

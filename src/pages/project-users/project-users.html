@@ -1,0 +1,33 @@
+<section class="project-users-page">
+  <a href="/projects" data-link class="small text-muted text-decoration-none"
+    >← All projects</a
+  >
+  <div class="page-heading mt-4">
+    <div>
+      <div class="eyebrow">BETTER WORK, TOGETHER</div>
+      <h1>Project members</h1>
+      <p data-project-title></p>
+    </div>
+    <button type="button" class="btn btn-primary" data-add-user hidden>
+      ＋ Add user
+    </button>
+  </div>
+  <p class="small text-muted" data-permissions></p>
+  <div class="table-responsive surface">
+    <table class="table align-middle mb-0">
+      <caption class="visually-hidden">
+        Users assigned to this project
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody data-people></tbody>
+    </table>
+  </div>
+  <a class="btn btn-outline-primary mt-4" data-tasks data-link>View Tasks →</a>
+</section>
