@@ -1,0 +1,49 @@
+.site-header {
+  background: #f5f6ef;
+  border-bottom: 1px solid var(--line);
+}
+.navbar-brand {
+  font-family: Manrope, sans-serif;
+  color: var(--ink) !important;
+  letter-spacing: -1px;
+  font-size: 24px;
+}
+.brand-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  background: var(--green);
+  color: white;
+  border-radius: 8px;
+  font-size: 29px;
+  vertical-align: middle;
+}
+.brand-dot {
+  color: #8b9b73;
+}
+.navbar .nav-link {
+  font-size: 13px;
+  color: #7e8974;
+  padding: 9px 12px !important;
+  border-radius: 6px;
+}
+.navbar .nav-link.active {
+  background: #e6ecdc;
+  color: var(--green);
+}
+.account-link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.user-avatar {
+  background: #e8dcc7;
+  color: #8b7350;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 12px;
+}

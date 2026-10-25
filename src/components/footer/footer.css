@@ -1,0 +1,10 @@
+.site-footer {
+  border-top: 1px solid var(--line);
+  color: #9aa38e;
+  font-size: 11px;
+}
+.footer-flower {
+  color: #8b9b73;
+  font-size: 19px;
+  margin-left: 7px;
+}

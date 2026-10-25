@@ -1,0 +1,15 @@
+.modal form {
+  display: contents;
+}
+.modal-backdrop {
+  backdrop-filter: blur(3px);
+}
+.modal [data-extra] {
+  font-size: 12px;
+}
+.modal-body .alert {
+  font-size: 13px;
+}
+.modal-dialog {
+  max-width: 540px;
+}

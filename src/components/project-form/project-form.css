@@ -1,0 +1,6 @@
+.color-choices {
+  margin-bottom: 8px;
+}
+.color-choice:hover {
+  transform: scale(1.08);
+}

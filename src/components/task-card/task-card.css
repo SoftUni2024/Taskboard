@@ -1,0 +1,85 @@
+.task-card {
+  background: white;
+  border: 1px solid #e3e8da;
+  border-radius: 8px;
+  padding: 18px 17px 10px;
+  margin-bottom: 13px;
+  cursor: grab;
+  box-shadow: 0 2px 4px #2a401807;
+  transition: box-shadow 0.2s;
+}
+.task-card:hover {
+  box-shadow: 0 5px 15px #2a401810;
+}
+.task-card h3 {
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  margin: 13px 0 9px;
+}
+.task-card p {
+  font-size: 12px;
+  color: #93a085;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.task-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-tag {
+  font-size: 9px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: #edf0e5;
+  color: #849574;
+}
+.tag-1 {
+  background: #faf0dd;
+  color: #b59b65;
+}
+.tag-2 {
+  background: #e9f1e3;
+  color: #7f986a;
+}
+.task-grip {
+  color: #b7c1a9;
+  font-size: 19px;
+}
+.task-card footer {
+  border-top: 1px solid #f0f3e9;
+  padding-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 35px;
+  color: #a1ad91;
+  font-size: 13px;
+}
+.task-card small {
+  font-size: 9px;
+  margin-left: auto;
+  letter-spacing: 0.7px;
+}
+.reorder-controls {
+  display: flex;
+  gap: 1px;
+  margin-left: 4px;
+}
+.reorder-controls .btn {
+  padding: 1px 5px;
+  color: #829472;
+  font-size: 12px;
+}
+.dragging {
+  opacity: 0.4;
+}
+.drop-before {
+  border-top: 3px solid #78935f;
+}

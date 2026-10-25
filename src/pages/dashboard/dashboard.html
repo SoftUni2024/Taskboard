@@ -1,0 +1,52 @@
+<section>
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">A LITTLE CLARITY. A LOT OF POSSIBILITY.</div>
+      <h1>Let’s make progress<span class="dashboard-dot">.</span></h1>
+      <p data-greeting></p>
+    </div>
+    <button class="btn btn-primary" data-new>＋ New project</button>
+  </div>
+  <div class="alert alert-danger d-none" role="alert" data-error></div>
+  <section class="dashboard-banner">
+    <div>
+      <span class="eyebrow">ONE STEP AT A TIME</span>
+      <h2>Big things start<br />with a clear next step.</h2>
+      <p>Bring your ideas together. Keep the good work moving.</p>
+      <button data-start>Start something new ↗</button>
+    </div>
+    <span class="banner-flower" aria-hidden="true">✳</span>
+  </section>
+  <div class="row g-3 my-3">
+    <div class="col-4">
+      <div class="stat-box">
+        <span>Total projects</span><strong data-total>00</strong>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <span>Tasks in the works</span><strong data-pending>00</strong>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <span>Tasks completed</span><strong data-completed>00</strong>
+      </div>
+    </div>
+  </div>
+  <div
+    class="d-flex justify-content-between align-items-center gap-3 mt-5 mb-4"
+  >
+    <h2 class="section-title mb-0">
+      Your projects <span data-project-count class="small text-muted"></span>
+    </h2>
+    <input
+      class="form-control search-box"
+      type="search"
+      placeholder="Search projects…"
+      aria-label="Search projects"
+    />
+  </div>
+  <div class="row g-4" data-projects></div>
+  <p class="text-muted small mt-4" data-empty></p>
+</section>

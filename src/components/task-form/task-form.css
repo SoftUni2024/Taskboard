@@ -1,0 +1,13 @@
+.task-editor:focus {
+  box-shadow: inset 0 0 0 2px #8b9b7330;
+}
+.task-editor:empty::before {
+  content: "Add a little context…";
+  color: #a4ae97;
+  pointer-events: none;
+}
+.task-editor blockquote {
+  border-left: 3px solid #cbd6bc;
+  padding-left: 12px;
+  color: #869875;
+}

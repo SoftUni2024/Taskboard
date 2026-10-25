@@ -1,0 +1,43 @@
+<div class="mb-3">
+  <label for="task-title" class="form-label">Task title</label
+  ><input
+    name="title"
+    id="task-title"
+    class="form-control"
+    required
+    maxlength="180"
+    placeholder="What needs to happen?"
+  />
+</div>
+<div class="mb-3">
+  <label for="task-stage" class="form-label">Stage</label
+  ><select id="task-stage" name="stage" class="form-select">
+    <option value="0">Not Started</option>
+    <option value="1">In Progress</option>
+    <option value="2">Done</option>
+  </select>
+</div>
+<label id="task-description-label" class="form-label">Description</label>
+<div class="rich-editor">
+  <div class="editor-toolbar" role="toolbar" aria-label="Text formatting">
+    <button type="button" data-command="bold" aria-label="Bold"><b>B</b></button
+    ><button type="button" data-command="italic" aria-label="Italic">
+      <i>I</i></button
+    ><button type="button" data-command="underline" aria-label="Underline">
+      <u>U</u></button
+    ><button
+      type="button"
+      data-command="insertUnorderedList"
+      aria-label="Bullet list"
+    >
+      ☷
+    </button>
+  </div>
+  <div
+    class="task-editor"
+    contenteditable="true"
+    role="textbox"
+    aria-multiline="true"
+    aria-labelledby="task-description-label"
+  ></div>
+</div>

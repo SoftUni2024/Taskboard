@@ -1,0 +1,25 @@
+<div class="mb-3">
+  <label class="form-label" for="project-title">Project name</label
+  ><input
+    id="project-title"
+    name="title"
+    class="form-control"
+    required
+    maxlength="120"
+    placeholder="What are we working on?"
+  />
+</div>
+<div class="mb-4">
+  <label for="project-description" class="form-label">Description</label
+  ><textarea
+    id="project-description"
+    name="description"
+    class="form-control"
+    rows="3"
+    maxlength="2000"
+    placeholder="A few words about the bigger picture…"
+  ></textarea>
+</div>
+<label class="form-label">Project color</label
+><input type="hidden" name="color" />
+<div class="color-choices" data-colors></div>

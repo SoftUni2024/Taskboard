@@ -1,0 +1,7 @@
+.member-row .btn {
+  font-size: 20px;
+  line-height: 1;
+}
+.member-row .user-avatar {
+  flex-shrink: 0;
+}

@@ -1,0 +1,4 @@
+.content-panel input[readonly] {
+  background: #f4f6ef;
+  color: #91a17c;
+}
