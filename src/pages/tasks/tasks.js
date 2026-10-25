@@ -6,6 +6,8 @@ import { taskForm } from "../../components/task-form/task-form.js";
 import { navigate } from "../../router.js";
 import { closeDialogs } from "../../components/dialog/dialog.js";
 import { mountBoardDrag } from "../../components/task-card/board-drag.js";
+import { supabase } from "../../services/supabase.js";
+import { watchProjectTasks } from "../../services/task-sync.js";
 export { template };
 export const title = "Project tasks";
 export async function mount(root, { id }) {
@@ -15,10 +17,28 @@ export async function mount(root, { id }) {
     busy = false,
     active = true;
   const search = root.querySelector("[type=search]");
+  let refreshPromise = null,
+    refreshAgain = false;
   async function refresh() {
-    data = await getBoard(id);
-    if (active) render();
-    return data;
+    if (refreshPromise) {
+      refreshAgain = true;
+      return refreshPromise;
+    }
+    refreshPromise = (async () => {
+      do {
+        refreshAgain = false;
+        const next = await getBoard(id);
+        if (!active) return;
+        data = next;
+        render();
+      } while (refreshAgain && active);
+      return data;
+    })();
+    try {
+      return await refreshPromise;
+    } finally {
+      refreshPromise = null;
+    }
   }
   async function move(task, stage, before) {
     if (busy || task === before) return;
@@ -57,6 +77,10 @@ export async function mount(root, { id }) {
       data.project.owner !== data.user.id;
     root.querySelector("[data-count]").textContent = data.tasks.length;
     const columns = root.querySelector("[data-columns]");
+    const scroll = { top: columns.scrollTop, left: columns.scrollLeft };
+    const focused = columns.contains(document.activeElement)
+      ? document.activeElement.closest(".task-card")?.dataset.taskId
+      : null;
     columns.replaceChildren();
     data.stages.forEach((stageRecord, index) => {
       const stage = stageRecord.name;
@@ -105,6 +129,12 @@ export async function mount(root, { id }) {
       column.dataset.stage = index;
       columns.append(column);
     });
+    columns.scrollTop = scroll.top;
+    columns.scrollLeft = scroll.left;
+    if (focused)
+      [...columns.querySelectorAll(".task-card")]
+        .find((card) => card.dataset.taskId === focused)
+        ?.focus({ preventScroll: true });
   }
   search.oninput = render;
   root.querySelector("[data-add]").onclick = () => openTask();
@@ -117,7 +147,22 @@ export async function mount(root, { id }) {
     onMove: move,
   });
   render();
+  const stopSync = watchProjectTasks(supabase, id, {
+    refresh,
+    canRefresh: () => active && !busy && !root.querySelector(".dragging"),
+    onError: (error) => {
+      if (active) showError(root, error);
+    },
+    onStatus: (status) => {
+      if (active)
+        root.querySelector("[data-sync]").textContent =
+          status === "SUBSCRIBED"
+            ? "● Live updates on"
+            : "Reconnecting live updates…";
+    },
+  });
   return () => {
+    stopSync();
     stopDrag();
     active = false;
     closeDialogs();

@@ -33,3 +33,6 @@ Run `npm test` and `npm run build` before publication. Verify real login/logout 
 - `/projects/{id}/users`: table of the owner and assigned members. Owners add users through a searchable popup and confirm removals. Members can view the list.
 - Project lists and Dashboard counts include owned and assigned projects. Only owners edit/delete projects or manage membership. Owners and members can read/write project stages and tasks, including task moves and attachments.
 - Use `project_members(project_id,user_id)` with a composite primary key and cascading foreign keys. Private, caller-scoped RLS helpers avoid recursive membership checks. Directory RPCs expose only names/emails and require ownership. Never expose Auth admin credentials in the browser.
+
+## Real-time task updates
+Use the project-scoped `project_task_changes` signal table and private task trigger to notify Supabase Realtime subscribers on every task mutation, including deletion. Keep RLS active; send only invalidation IDs and re-fetch authorized rows. Coalesce refreshes, serialize requests, defer during drag/save, preserve open popup drafts and board position, catch up on reconnect/focus, and remove subscriptions/timers when leaving the page.
