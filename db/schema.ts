@@ -1,0 +1,5 @@
+import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+export const users = sqliteTable('users', { id: text('id').primaryKey(), email: text('email').notNull().unique(), name: text('name').notNull() });
+export const projects = sqliteTable('projects', { id: text('id').primaryKey(), owner: text('owner').notNull().references(()=>users.id), title: text('title').notNull(), description: text('description').notNull(), color: text('color').notNull(), created: integer('created').notNull() });
+export const members = sqliteTable('members', { project: text('project').notNull().references(()=>projects.id, {onDelete:'cascade'}), email: text('email').notNull() }, t=>[primaryKey({columns:[t.project,t.email]})]);
+export const tasks = sqliteTable('tasks', { id: text('id').primaryKey(), project: text('project').notNull().references(()=>projects.id,{onDelete:'cascade'}), title: text('title').notNull(), description: text('description').notNull(), stage: integer('stage').notNull(), position: integer('position').notNull(), created: integer('created').notNull() });
