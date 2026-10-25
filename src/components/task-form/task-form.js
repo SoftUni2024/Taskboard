@@ -4,7 +4,9 @@ import { openDialog, confirmDelete } from "../dialog/dialog.js";
 import { api, notify, notifyError } from "../../services/api.js";
 import { mountTaskAttachments } from "../task-attachments/task-attachments.js";
 import { mountTaskComments } from "../task-comments/task-comments.js";
+import { mountTaskAssignee } from "../task-assignee/task-assignee.js";
 export function taskForm(project, task, stage, onSaved, stages) {
+  let assignee;
   const dialog = openDialog({
     title: task ? "Edit task" : "Add New Task",
     body: template,
@@ -13,6 +15,8 @@ export function taskForm(project, task, stage, onSaved, stages) {
       ? '<button type="button" class="danger-link" data-delete>Delete task</button>'
       : "",
     onMount(root) {
+      assignee = mountTaskAssignee(root.querySelector("[data-task-assignee]"), project, task);
+      root.addEventListener("hidden.bs.modal", () => assignee.stop(), { once: true });
       const stopComments = mountTaskComments(
         root.querySelector("[data-task-comments]"),
         project,
@@ -82,6 +86,7 @@ export function taskForm(project, task, stage, onSaved, stages) {
       await api(task ? "editTask" : "createTask", {
         ...Object.fromEntries(form),
         title,
+        assignee_id: assignee.value(),
         stage: Number(form.get("stage")),
         description: root.querySelector(".task-editor").innerHTML,
         project,

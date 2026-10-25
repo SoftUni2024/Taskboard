@@ -45,3 +45,6 @@ Fetch Projects in pages of 20 with database-side search and exact counts. Load t
 
 ## Task comments
 Use the task-comments component in existing task popups. Keep comments plain text with a 4,000-character limit, safe text rendering, newest-first paging, independent saves, author/time and edited markers. Owners/members/admins can read/post; only authors or admins can edit/delete, enforced by RLS and body-only update grants. Preserve drafts during live invalidation refreshes and remove listeners on popup close. Cascade comments with tasks and preserve discussion when an Auth author is removed.
+
+## Task responsibility
+Use nullable tasks.assignee_id for one responsible person per task. The task-assignee component lists only the project's owner and current members, plus Unassigned. Validate eligibility in PostgreSQL as well as the UI, retain task RLS, clear assignments on membership removal/account deletion, and show safe display names on board cards. Keep assignments on moves and refresh them through existing Realtime task signals.

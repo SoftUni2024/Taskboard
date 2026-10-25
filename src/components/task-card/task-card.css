@@ -34,6 +34,12 @@
   justify-content: space-between;
   align-items: center;
 }
+.task-responsible {
+  font-size: 11px;
+  color: #536b49;
+  overflow-wrap: anywhere;
+  margin: 0 0 10px;
+}
 .task-tag {
   font-size: 9px;
   border-radius: 4px;

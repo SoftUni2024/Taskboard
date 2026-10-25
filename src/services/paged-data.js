@@ -1,5 +1,6 @@
 import { supabase } from "./supabase.js";
 import { sanitizeRichText } from "./rich-text.js";
+import { taskAssignees, assigneeName } from "./task-assignees.js";
 export const PROJECT_PAGE_SIZE = 20;
 export const TASK_BATCH_SIZE = 20;
 export function normalizePage(value) {
@@ -53,6 +54,7 @@ export async function loadProjectPage(page = 1, search = "") {
   };
 }
 export async function loadPagedBoard(project, user, limits = {}, search = "") {
+  const people = await taskAssignees(project);
   const [
     { data: record, error: projectError },
     { data: stages, error: stageError },
@@ -94,6 +96,7 @@ export async function loadPagedBoard(project, user, limits = {}, search = "") {
         count,
         tasks: rows.map((task) => ({
           ...task,
+          assignee_name: assigneeName(task, people),
           project: task.project_id,
           stage: index,
           stage_name: stage.name,

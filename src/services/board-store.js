@@ -176,6 +176,8 @@ export async function mutateBoard(action, values) {
       stage_id: target.id,
       done: target.name === "Done",
     };
+    // Preserve assignment for callers that only edit other task details.
+    if (Object.hasOwn(values, "assignee_id")) row.assignee_id = values.assignee_id || null;
     if (action === "createTask") {
       await result(
         supabase.from("tasks").insert({

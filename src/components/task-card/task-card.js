@@ -8,6 +8,7 @@ export function taskCard(task, { onOpen, onMove, index, list }) {
   card.dataset.taskId = task.id;
   card.setAttribute("aria-label", "Open task: " + task.title);
   card.querySelector("h3").textContent = task.title;
+  card.querySelector("[data-assignee]").textContent = "Responsible: " + (task.assignee_name || "Unassigned");
   const tag = card.querySelector(".task-tag");
   tag.textContent = task.done
     ? "Completed"
