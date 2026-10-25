@@ -39,3 +39,6 @@ Use the project-scoped `project_task_changes` signal table and private task trig
 
 ## Administration
 Use `/admin`, `/admin/projects/{id}`, and `/admin/users` for administration. Keep admin roles in `private.admin_users`, checked through caller-scoped DB helpers. Never trust profile metadata for privileges. Admin project/stage/task operations stay under RLS; Auth user edits/deletions use the server-side `admin-users` Edge Function with verified caller identity and a live admin-role check. Prevent self-demotion/self-deletion; require demotion before deleting another admin. Clean up Storage assets before deleting stages, projects, or users. Never expose or commit `.env.admin` or server-only keys.
+
+## Pagination and larger datasets
+Fetch Projects in pages of 20 with database-side search and exact counts. Load task-column prefixes in 20-card increments using per-column scroll observers and a manual Load more fallback. Preserve loaded limits and scroll positions during live refreshes. Disable reordering while searching; drops after a partially loaded column must insert before its next unloaded task. Use the deterministic `seed:scale` script for the 100+ project / 120-task-per-project sample dataset.

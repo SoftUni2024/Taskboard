@@ -162,3 +162,15 @@
 .board-column.drop-active .column-empty {
   display: none;
 }
+.column-cards {
+  max-height: min(50dvh, 480px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 2px 4px;
+}
+.task-load-more {
+  display: block;
+  width: 100%;
+  margin: 10px 0 4px;
+}

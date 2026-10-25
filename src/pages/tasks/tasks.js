@@ -8,12 +8,21 @@ import { closeDialogs } from "../../components/dialog/dialog.js";
 import { mountBoardDrag } from "../../components/task-card/board-drag.js";
 import { supabase } from "../../services/supabase.js";
 import { watchProjectTasks } from "../../services/task-sync.js";
+import {
+  loadPagedBoard,
+  nextUnloadedTask,
+  TASK_BATCH_SIZE,
+} from "../../services/paged-data.js";
 export { template };
 export const title = "Project tasks";
 export async function mount(root, { id }) {
-  const userData = await requireUser();
+  const userData = await requireUser(false);
   if (!userData) return;
-  let data = await getBoard(id),
+  let limits = {},
+    loadingMore = false,
+    observers = [],
+    searchTimer;
+  let data = await loadPagedBoard(id, userData.user, limits),
     busy = false,
     active = true;
   const search = root.querySelector("[type=search]");
@@ -27,7 +36,12 @@ export async function mount(root, { id }) {
     refreshPromise = (async () => {
       do {
         refreshAgain = false;
-        const next = await getBoard(id);
+        const next = await loadPagedBoard(
+          id,
+          userData.user,
+          limits,
+          search.value,
+        );
         if (!active) return;
         data = next;
         render();
@@ -49,6 +63,16 @@ export async function mount(root, { id }) {
     root.querySelector("[data-status]").textContent = "Saving changes…";
     let saved = false;
     try {
+      if (!before && !search.value) {
+        const loaded = data.tasks.filter((t) => t.stage === stage).length;
+        if (loaded < data.counts[stage]) {
+          before = await nextUnloadedTask(id, data.stages[stage].id, loaded);
+          if (data.tasks.find((t) => t.id === task)?.stage !== stage)
+            limits[data.stages[stage].id] =
+              (limits[data.stages[stage].id] || TASK_BATCH_SIZE) +
+              TASK_BATCH_SIZE;
+        }
+      }
       await api("moveTask", { project: id, id: task, stage, before });
       await refresh();
       saved = true;
@@ -75,12 +99,20 @@ export async function mount(root, { id }) {
       data.project.description || "A fresh space for your next big thing.";
     root.querySelector("[data-settings]").hidden =
       data.project.owner !== data.user.id;
-    root.querySelector("[data-count]").textContent = data.tasks.length;
+    root.querySelector("[data-count]").textContent = data.total;
     const columns = root.querySelector("[data-columns]");
     const scroll = { top: columns.scrollTop, left: columns.scrollLeft };
     const focused = columns.contains(document.activeElement)
       ? document.activeElement.closest(".task-card")?.dataset.taskId
       : null;
+    const columnScroll = Object.fromEntries(
+      [...columns.children].map((column) => [
+        column.dataset.stage,
+        column.querySelector(".column-cards")?.scrollTop || 0,
+      ]),
+    );
+    observers.forEach((observer) => observer.disconnect());
+    observers = [];
     columns.replaceChildren();
     data.stages.forEach((stageRecord, index) => {
       const stage = stageRecord.name;
@@ -97,11 +129,14 @@ export async function mount(root, { id }) {
       column
         .querySelector(".column-add")
         .setAttribute("aria-label", `Add New Task to ${stage}`);
-      column.querySelector("h2 small").textContent = list.length;
+      column.querySelector("h2 small").textContent = data.counts[index];
       column
         .querySelectorAll("button")
         .forEach((b) => (b.onclick = () => openTask(null, index)));
       const cards = column.querySelector(".column-cards");
+      cards.tabIndex = 0;
+      cards.setAttribute("role", "region");
+      cards.setAttribute("aria-label", stage + " tasks");
       list.forEach((task, i) => {
         if (!task.title.toLowerCase().includes(search.value.toLowerCase()))
           return;
@@ -112,6 +147,10 @@ export async function mount(root, { id }) {
           list,
         });
         card.draggable = !search.value && !busy;
+        if (search.value)
+          card
+            .querySelectorAll("button")
+            .forEach((button) => (button.disabled = true));
         cards.append(card);
       });
       if (!cards.childElementCount) {
@@ -126,8 +165,27 @@ export async function mount(root, { id }) {
             ][index] || "No tasks in this stage yet.";
         cards.append(empty);
       }
+      if (list.length < data.counts[index]) {
+        const more = document.createElement("button");
+        more.type = "button";
+        more.className = "btn btn-outline-primary btn-sm task-load-more";
+        more.textContent = `Load more tasks (${list.length} of ${data.counts[index]})`;
+        more.setAttribute("aria-label", `Load more ${stage} tasks`);
+        more.onclick = () => loadMore(stageRecord.id);
+        cards.append(more);
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting))
+              loadMore(stageRecord.id);
+          },
+          { root: cards, rootMargin: "120px" },
+        );
+        observer.observe(more);
+        observers.push(observer);
+      }
       column.dataset.stage = index;
       columns.append(column);
+      cards.scrollTop = columnScroll[index] || 0;
     });
     columns.scrollTop = scroll.top;
     columns.scrollLeft = scroll.left;
@@ -136,7 +194,28 @@ export async function mount(root, { id }) {
         .find((card) => card.dataset.taskId === focused)
         ?.focus({ preventScroll: true });
   }
-  search.oninput = render;
+  async function loadMore(stage) {
+    if (loadingMore || busy || root.querySelector(".dragging")) return;
+    loadingMore = true;
+    const previous = limits[stage] || TASK_BATCH_SIZE;
+    limits[stage] = previous + TASK_BATCH_SIZE;
+    try {
+      await refresh();
+    } catch (error) {
+      limits[stage] = previous;
+      showError(root, error);
+    } finally {
+      loadingMore = false;
+    }
+  }
+  search.oninput = () => {
+    clearTimeout(searchTimer);
+    limits = {};
+    searchTimer = setTimeout(
+      () => refresh().catch((error) => showError(root, error)),
+      250,
+    );
+  };
   root.querySelector("[data-add]").onclick = () => openTask();
   root.querySelector("[data-settings]").onclick = () =>
     navigate(`/project/${id}/edit`);
@@ -149,7 +228,8 @@ export async function mount(root, { id }) {
   render();
   const stopSync = watchProjectTasks(supabase, id, {
     refresh,
-    canRefresh: () => active && !busy && !root.querySelector(".dragging"),
+    canRefresh: () =>
+      active && !busy && !loadingMore && !root.querySelector(".dragging"),
     onError: (error) => {
       if (active) showError(root, error);
     },
@@ -162,6 +242,8 @@ export async function mount(root, { id }) {
     },
   });
   return () => {
+    clearTimeout(searchTimer);
+    observers.forEach((observer) => observer.disconnect());
     stopSync();
     stopDrag();
     active = false;

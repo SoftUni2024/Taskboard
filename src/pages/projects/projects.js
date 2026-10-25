@@ -2,34 +2,46 @@ import template from "./projects.html?raw";
 import "./projects.css";
 import { requireUser, api, notify } from "../../services/api.js";
 import { closeDialogs, confirmDelete } from "../../components/dialog/dialog.js";
+import {
+  loadProjectPage,
+  PROJECT_PAGE_SIZE,
+  normalizePage,
+} from "../../services/paged-data.js";
+import { notifyError } from "../../services/api.js";
 export { template };
 export const title = "Projects";
 export async function mount(root) {
-  const data = await requireUser();
+  const data = await requireUser(false);
   if (!data) return;
-  let active = true;
+  let active = true,
+    page = normalizePage(new URLSearchParams(location.search).get("page")),
+    total = 0,
+    version = 0,
+    timer;
+  data.projects = [];
   const search = root.querySelector("[type=search]");
+  search.value = new URLSearchParams(location.search).get("q") || "";
   function remove(project) {
     confirmDelete(
       "Delete project?",
       `Delete “${project.title}”? Its ${project.stage_count} stages and ${project.total} tasks will also be permanently removed. This cannot be undone.`,
       async () => {
         await api("deleteProject", { project: project.id });
-        data.projects = data.projects.filter((row) => row.id !== project.id);
-        if (active) render();
+        await load();
         notify("Project deleted");
       },
     );
   }
   function render() {
-    const visible = data.projects.filter((project) =>
-      `${project.title} ${project.description}`
-        .toLowerCase()
-        .includes(search.value.toLowerCase()),
-    );
-    root.querySelector("[data-count]").textContent = search.value
-      ? `${visible.length} of ${data.projects.length} projects`
-      : `${data.projects.length} ${data.projects.length === 1 ? "project" : "projects"}`;
+    const visible = data.projects;
+    root.querySelector("[data-count]").textContent = total
+      ? `${(page - 1) * PROJECT_PAGE_SIZE + 1}–${Math.min(page * PROJECT_PAGE_SIZE, total)} of ${total} projects`
+      : "0 projects";
+    root.querySelector("[data-page]").textContent =
+      `Page ${page} of ${Math.max(1, Math.ceil(total / PROJECT_PAGE_SIZE))}`;
+    root.querySelector("[data-prev]").disabled = page <= 1;
+    root.querySelector("[data-next]").disabled =
+      page * PROJECT_PAGE_SIZE >= total;
     const body = root.querySelector("[data-projects]");
     body.replaceChildren();
     for (const project of visible) {
@@ -74,17 +86,49 @@ export async function mount(root) {
       const cell = document.createElement("td");
       cell.colSpan = 6;
       cell.className = "projects-empty";
-      cell.textContent = !data.projects.length
-        ? "No projects yet. Create your first project to get started."
-        : "No projects match your search.";
+      cell.textContent = search.value
+        ? "No projects match your search."
+        : "No projects yet. Create your first project to get started.";
       row.append(cell);
       body.append(row);
     }
   }
-  search.oninput = render;
-  render();
+  async function load() {
+    const v = ++version;
+    const result = await loadProjectPage(page, search.value);
+    if (!active || v !== version) return;
+    total = result.count;
+    if (page > 1 && (page - 1) * PROJECT_PAGE_SIZE >= total) {
+      page = Math.max(1, Math.ceil(total / PROJECT_PAGE_SIZE));
+      return load();
+    }
+    const url = new URL(location.href);
+    if (page > 1) url.searchParams.set("page", String(page));
+    else url.searchParams.delete("page");
+    if (search.value) url.searchParams.set("q", search.value);
+    else url.searchParams.delete("q");
+    history.replaceState({}, "", url);
+    data.projects = result.projects;
+    render();
+  }
+  const reload = () => load().catch(notifyError);
+  search.oninput = () => {
+    clearTimeout(timer);
+    page = 1;
+    timer = setTimeout(reload, 250);
+  };
+  root.querySelector("[data-prev]").onclick = () => {
+    page--;
+    reload();
+  };
+  root.querySelector("[data-next]").onclick = () => {
+    page++;
+    reload();
+  };
+  await load();
   return () => {
     active = false;
+    clearTimeout(timer);
     closeDialogs();
   };
 }

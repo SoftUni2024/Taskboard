@@ -1,3 +1,4 @@
+import { auth } from "./auth.js";
 import { navigate } from "../router.js";
 import { loadBoard, mutateBoard } from "./board-store.js";
 export const getBoard = loadBoard;
@@ -24,8 +25,10 @@ import { notifyError } from "../components/notifications/notifications.js";
 export function showError(_root, error) {
   notifyError(error);
 }
-export async function requireUser() {
-  const data = await getBoard();
+export async function requireUser(loadProjects = true) {
+  const data = loadProjects
+    ? await getBoard()
+    : { user: await auth.currentUser() };
   if (!data.user) {
     await navigate(
       "/login?return_to=" + encodeURIComponent(location.pathname),

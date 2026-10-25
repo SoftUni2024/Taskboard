@@ -58,9 +58,16 @@ export function mountBoardDrag(board, { canDrag, onMove }) {
     }
     const rect = board.getBoundingClientRect();
     const speed = (p, min, max) => (p < min + 55 ? -12 : p > max - 55 ? 12 : 0);
+    const cards = document
+      .elementFromPoint(point.x, point.y)
+      ?.closest(".column-cards");
+    if (cards) {
+      const area = cards.getBoundingClientRect();
+      cards.scrollBy(0, speed(point.y, area.top, area.bottom));
+    }
     board.scrollBy(
       speed(point.x, rect.left, rect.right),
-      speed(point.y, rect.top, rect.bottom),
+      cards ? 0 : speed(point.y, rect.top, rect.bottom),
     );
     preview(point.x, point.y);
     frame = requestAnimationFrame(tick);
