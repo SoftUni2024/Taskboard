@@ -1,0 +1,111 @@
+#notifications {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2100;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.notification-region {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.notification-region:empty {
+  display: none;
+}
+.app-toast.toast {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 1px solid #dce6d2;
+  border-left: 4px solid #819d67;
+  border-radius: 10px;
+  background: #fbfdf7;
+  color: #344b2c;
+  box-shadow: 0 8px 30px #263b2420;
+  pointer-events: auto;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  --bs-toast-zindex: 2100;
+}
+.app-toast--error.toast {
+  border-color: #eedbd3;
+  border-left-color: #b76d59;
+  background: #fffaf7;
+  color: #8e4b3b;
+}
+.app-toast-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 16px;
+}
+.app-toast-icon {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: #e9f0df;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+}
+.app-toast--error .app-toast-icon {
+  background: #f7e6de;
+}
+.app-toast-content {
+  min-width: 0;
+  flex: 1;
+}
+.app-toast-content strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 3px;
+}
+.app-toast-content p {
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+  color: #78896b;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.app-toast--error .app-toast-content p {
+  color: #9b6c5d;
+}
+.app-toast-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  opacity: 0.65;
+  font-size: 23px;
+  line-height: 1;
+  padding: 0 2px;
+  margin-left: 2px;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+.app-toast-close:hover {
+  opacity: 1;
+}
+@media (max-width: 576px) {
+  #notifications {
+    right: 16px;
+    bottom: 16px;
+  }
+  .app-toast-inner {
+    padding: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-toast.fade {
+    transition: none;
+  }
+}

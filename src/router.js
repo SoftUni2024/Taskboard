@@ -1,5 +1,6 @@
 import { refreshHeader } from "./components/header/header.js";
 import { matchRoute } from "./routes.js";
+import { notifyError } from "./components/notifications/notifications.js";
 export { safeReturn } from "./routes.js";
 let renderRoute = () => {},
   dispose = () => {},
@@ -38,8 +39,9 @@ export function startRouter(outlet) {
       if (version === generation) {
         outlet.replaceChildren();
         const message = document.createElement("div");
-        message.className = "alert alert-danger";
-        message.textContent = error.message;
+        notifyError(error);
+        message.className = "text-muted mb-3";
+        message.textContent = "We couldn’t open this page. Please try again.";
         outlet.append(message);
         const retry = document.createElement("button");
         retry.className = "btn btn-outline-primary";

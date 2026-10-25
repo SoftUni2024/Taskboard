@@ -92,21 +92,6 @@ a {
   padding: 100px 20px;
   color: var(--muted);
 }
-.app-toast {
-  background: var(--green);
-  color: white;
-  border-radius: 8px;
-  padding: 14px 22px;
-  margin-top: 8px;
-  font-size: 13px;
-}
-#notifications {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 2000;
-  max-width: 90vw;
-}
 button:disabled {
   cursor: wait;
 }

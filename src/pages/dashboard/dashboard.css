@@ -98,3 +98,56 @@
     min-height: 190px;
   }
 }
+.dashboard-stats .stat-box {
+  display: block;
+  height: 100%;
+  padding: 23px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.dashboard-stats .stat-box > span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+.dashboard-stats .stat-box strong {
+  margin: 10px 0 9px;
+  font-size: 32px;
+  line-height: 1.2;
+}
+.dashboard-stats .stat-box small {
+  font-size: 10px;
+  color: #9ba78f;
+}
+.dashboard-stats .project-stat {
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  background: #f4f7ec;
+}
+.dashboard-stats .project-stat:hover {
+  border-color: #aabf90;
+  box-shadow: 0 5px 20px #344e3d0a;
+}
+.dashboard-stats .project-stat small {
+  color: #71895b;
+}
+.dashboard-projects-link {
+  font-size: 12px;
+  color: #71895b;
+  text-decoration: none;
+}
+.dashboard-projects-link:hover {
+  text-decoration: underline;
+}
+@media (max-width: 576px) {
+  .dashboard-stats .stat-box {
+    padding: 19px 16px;
+  }
+  .dashboard-stats .stat-box > span {
+    min-height: 0;
+  }
+  .dashboard-stats .stat-box small {
+    font-size: 9px;
+  }
+}

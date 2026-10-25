@@ -2,7 +2,7 @@ import template from "./login.html?raw";
 import "./login.css";
 import { navigate } from "../../router.js";
 import { auth } from "../../services/auth.js";
-import { showError } from "../../services/api.js";
+import { showError, notify } from "../../services/api.js";
 export { template };
 export const title = "Log in / Register";
 export async function mount(root) {
@@ -42,7 +42,6 @@ export async function mount(root) {
     buttons.forEach((button) =>
       button.setAttribute("aria-pressed", String(button.dataset.mode === mode)),
     );
-    root.querySelector("[data-error]").classList.add("d-none");
   }
   buttons.forEach(
     (button) => (button.onclick = () => setMode(button.dataset.mode)),
@@ -55,7 +54,6 @@ export async function mount(root) {
   form.onsubmit = async (event) => {
     event.preventDefault();
     if (busy) return;
-    root.querySelector("[data-error]").classList.add("d-none");
     const values = new FormData(form);
     if (
       mode === "register" &&
@@ -71,13 +69,14 @@ export async function mount(root) {
     submit.disabled = true;
     buttons.forEach((button) => (button.disabled = true));
     try {
-      if (mode === "register")
+      if (mode === "register") {
         await auth.register(
           values.get("name"),
           values.get("email"),
           values.get("password"),
         );
-      else await auth.login(values.get("email"), values.get("password"));
+        notify("Account created. Welcome to Task Board!");
+      } else await auth.login(values.get("email"), values.get("password"));
       form.reset();
       if (active) await navigate("/dashboard", { replace: true });
     } catch (error) {

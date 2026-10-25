@@ -1,13 +1,12 @@
 <section>
   <div class="page-heading">
     <div>
-      <div class="eyebrow">A LITTLE CLARITY. A LOT OF POSSIBILITY.</div>
+      <div class="eyebrow">YOUR WORKSPACE AT A GLANCE</div>
       <h1>Let’s make progress<span class="dashboard-dot">.</span></h1>
       <p data-greeting></p>
     </div>
     <button class="btn btn-primary" data-new>＋ New project</button>
   </div>
-  <div class="alert alert-danger d-none" role="alert" data-error></div>
   <section class="dashboard-banner">
     <div>
       <span class="eyebrow">ONE STEP AT A TIME</span>
@@ -17,35 +16,39 @@
     </div>
     <span class="banner-flower" aria-hidden="true">✳</span>
   </section>
-  <div class="row g-3 my-3">
-    <div class="col-4">
+  <section class="dashboard-stats row g-3 my-3" aria-label="Workspace totals">
+    <div class="col-6 col-lg-3">
+      <a href="/projects" data-link class="stat-box project-stat"
+        ><span>Projects</span><strong data-total>0</strong
+        ><small>View projects <span aria-hidden="true">→</span></small></a
+      >
+    </div>
+    <div class="col-6 col-lg-3">
       <div class="stat-box">
-        <span>Total projects</span><strong data-total>00</strong>
+        <span>Total tasks</span><strong data-task-total>0</strong
+        ><small>Across your projects</small>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-6 col-lg-3">
       <div class="stat-box">
-        <span>Tasks in the works</span><strong data-pending>00</strong>
+        <span>Open tasks</span><strong data-pending>0</strong
+        ><small>Not started + in progress</small>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-6 col-lg-3">
       <div class="stat-box">
-        <span>Tasks completed</span><strong data-completed>00</strong>
+        <span>Done tasks</span><strong data-completed>0</strong
+        ><small>Completed work</small>
       </div>
     </div>
-  </div>
+  </section>
   <div
     class="d-flex justify-content-between align-items-center gap-3 mt-5 mb-4"
   >
-    <h2 class="section-title mb-0">
-      Your projects <span data-project-count class="small text-muted"></span>
-    </h2>
-    <input
-      class="form-control search-box"
-      type="search"
-      placeholder="Search projects…"
-      aria-label="Search projects"
-    />
+    <h2 class="section-title mb-0">Your projects</h2>
+    <a href="/projects" data-link class="dashboard-projects-link"
+      >View all projects →</a
+    >
   </div>
   <div class="row g-4" data-projects></div>
   <p class="text-muted small mt-4" data-empty></p>

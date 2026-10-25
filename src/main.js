@@ -5,10 +5,12 @@ import { mountFooter } from "./components/footer/footer.js";
 import { startRouter, navigate } from "./router.js";
 import { refreshHeader } from "./components/header/header.js";
 import { supabase } from "./services/supabase.js";
+import { mountNotifications } from "./components/notifications/notifications.js";
 
 const app = document.querySelector("#app");
 app.innerHTML =
-  '<div id="header"></div><main id="page-content" tabindex="-1" class="container-xl py-4 py-md-5"></main><div id="footer"></div><div id="notifications" aria-live="polite"></div>';
+  '<div id="header"></div><main id="page-content" tabindex="-1" class="container-xl py-4 py-md-5"></main><div id="footer"></div><div id="notifications"></div>';
+mountNotifications(document.querySelector("#notifications"));
 mountHeader(document.querySelector("#header"));
 mountFooter(document.querySelector("#footer"));
 startRouter(document.querySelector("#page-content"));

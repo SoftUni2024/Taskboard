@@ -1,12 +1,6 @@
 import template from "./tasks.html?raw";
 import "./tasks.css";
-import {
-  requireUser,
-  getBoard,
-  api,
-  showError,
-  notify,
-} from "../../services/api.js";
+import { requireUser, getBoard, api, showError } from "../../services/api.js";
 import { taskCard } from "../../components/task-card/task-card.js";
 import { taskForm } from "../../components/task-form/task-form.js";
 import { projectForm } from "../../components/project-form/project-form.js";
@@ -33,7 +27,6 @@ export async function mount(root, { id }) {
     try {
       await api("moveTask", { project: id, id: task, stage, before });
       await refresh();
-      notify("Task moved");
     } catch (e) {
       showError(root, e);
     } finally {
@@ -127,9 +120,7 @@ export async function mount(root, { id }) {
   root.querySelector("[data-settings]").onclick = () =>
     projectForm(data.project, refresh);
   root.querySelector("[data-refresh]").onclick = () =>
-    refresh()
-      .then(() => notify("Board refreshed"))
-      .catch((e) => showError(root, e));
+    refresh().catch((e) => showError(root, e));
   render();
   return () => {
     active = false;

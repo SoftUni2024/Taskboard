@@ -52,3 +52,6 @@
   place-items: center;
   font-size: 12px;
 }
+[hidden] {
+  display: none !important;
+}

@@ -1,0 +1,21 @@
+.projects-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+.projects-toolbar .search-box {
+  max-width: 280px;
+}
+.projects-toolbar > span {
+  white-space: nowrap;
+}
+.projects-toolbar ~ [data-empty]:empty {
+  display: none;
+}
+@media (max-width: 576px) {
+  .projects-toolbar .search-box {
+    max-width: 200px;
+  }
+}

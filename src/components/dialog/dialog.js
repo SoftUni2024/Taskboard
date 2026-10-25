@@ -1,6 +1,7 @@
 import { Modal } from "bootstrap";
 import template from "./dialog.html?raw";
 import "./dialog.css";
+import { notifyError } from "../notifications/notifications.js";
 const openDialogs = new Set();
 export function openDialog({
   title,
@@ -33,8 +34,6 @@ export function openDialog({
   );
   root.querySelector("form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const error = root.querySelector("[data-error]");
-    error.classList.add("d-none");
     const buttons = [...root.querySelectorAll("button")];
     buttons.forEach((b) => (b.disabled = true));
     if (submit) submit.textContent = "Saving…";
@@ -42,8 +41,7 @@ export function openDialog({
       const result = await onSubmit(new FormData(event.currentTarget), root);
       if (result !== false) modal.hide();
     } catch (e) {
-      error.textContent = e.message;
-      error.classList.remove("d-none");
+      notifyError(e);
     } finally {
       buttons.forEach((b) => (b.disabled = false));
       if (submit) submit.textContent = submitLabel;

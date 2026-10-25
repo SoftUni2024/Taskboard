@@ -16,19 +16,13 @@ export function textFromHtml(html) {
   el.innerHTML = html;
   return el.textContent || "";
 }
-export function notify(message) {
-  const el = document.createElement("div");
-  el.className = "app-toast shadow-sm";
-  el.textContent = "✓ " + message;
-  document.querySelector("#notifications").append(el);
-  setTimeout(() => el.remove(), 3500);
-}
-export function showError(root, error) {
-  const el = root.querySelector("[data-error]");
-  if (el) {
-    el.classList.remove("d-none");
-    el.textContent = error.message;
-  }
+export {
+  notify,
+  notifyError,
+} from "../components/notifications/notifications.js";
+import { notifyError } from "../components/notifications/notifications.js";
+export function showError(_root, error) {
+  notifyError(error);
 }
 export async function requireUser() {
   const data = await getBoard();

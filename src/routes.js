@@ -7,6 +7,11 @@ const routes = [
     protected: true,
   },
   {
+    pattern: /^\/projects$/,
+    load: () => import("./pages/projects/projects.js"),
+    protected: true,
+  },
+  {
     pattern: /^\/projects\/([^/]+)\/tasks$/,
     load: () => import("./pages/tasks/tasks.js"),
     protected: true,

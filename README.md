@@ -21,12 +21,21 @@ Open `http://127.0.0.1:5173`. Browser configuration in `src/services/supabase.js
 | `/login` | Email/password login and registration |
 | `/login?mode=register` | Registration mode |
 | `/dashboard` | Current user's projects and progress |
+| `/projects` | Searchable list of the current user's projects |
 | `/projects/{id}/tasks` | Current user's project board |
 | `/account` | Display-name settings and logout |
 
 Registration accepts a display name, email, password, and matching password confirmation. Supabase email confirmations are disabled for this project, so registration establishes a session immediately. Successful registration/login redirects to `/dashboard`. Logout clears the current app session and returns to `/`. Sessions persist across refreshes and refresh automatically; logout is synchronized across tabs.
 
 Protected pages redirect signed-out visitors to `/login`. Supabase RLS independently enforces access to each user's own projects, stages, and tasks. No project-members table or member management is used.
+
+Dashboard is the signed-in home page. It shows the project count (linked to Projects), total task count, open task count, and done task count across the current user's projects. Open tasks are all tasks whose completion flag is false. The header links signed-in users to Dashboard and Projects; the brand returns them to Dashboard.
+
+## Notifications
+
+`src/components/notifications/` owns the shared HTML, CSS, and JavaScript toast component. Errors from forms, Auth, page loading, and mutations use dismissible error toasts. Successful account creation and project/task/profile mutations use info toasts. Navigation, login/logout, data loading, refreshes, and obvious task moves remain quiet.
+
+Info toasts close after five seconds and pause while hovered or focused; errors remain until dismissed. Duplicate messages are combined and the stack is capped at four. Native form validation shows the first invalid field as a toast and focuses that field. Messages use text content, with separate polite/assertive live regions and reduced-motion support.
 
 ## Modular structure
 
