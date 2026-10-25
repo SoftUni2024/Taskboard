@@ -1,100 +1,542 @@
 .home-hero {
   text-align: center;
-  padding: 35px 0 45px;
+  padding: 35px 0 51px;
 }
 .home-hero h1 {
-  font-size: clamp(38px, 5vw, 64px);
-  line-height: 1.15;
-  letter-spacing: -2.5px;
-  margin: 20px 0;
+  font-size: clamp(44px, 6vw, 76px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -3px;
+  margin: 20px 0 25px;
 }
-.home-hero p {
-  font-size: 16px;
+.home-hero h1 > span {
+  color: #96a87e;
+}
+.home-hero > p {
+  font-size: 17px;
   line-height: 1.8;
-  color: #8c997e;
+  color: #7e8e71;
+  max-width: 680px;
+  margin: 0 auto 27px;
+}
+.home-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.home-actions .btn {
+  padding: 14px 23px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 17px;
+}
+.home-login {
+  color: #89957e;
+  text-decoration: none;
+  font-size: 12px;
+}
+.home-login strong {
+  color: #526c43;
+  margin-left: 5px;
+  font-weight: 500;
+}
+.home-hero .home-signup-note {
+  font-size: 11px;
+  color: #99a48d;
+  margin: 18px auto 0;
+}
+.home-demo {
+  background: #eef2e7;
+  border: 1px solid #e0e7d5;
+  border-radius: 15px;
+  padding: 26px 28px 17px;
+  box-shadow: 0 15px 45px #405c1c06;
+}
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
   margin-bottom: 27px;
+}
+.demo-header > div {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.demo-project-icon {
+  width: 34px;
+  height: 34px;
+  background: #8b9e75;
+  color: white;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 26px;
+}
+.demo-header h2 {
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  font-weight: 600;
+  margin: 0;
+}
+.demo-badge {
+  border: 1px solid #d8e1cb;
+  background: #f7f9f1;
+  border-radius: 20px;
+  padding: 6px 11px;
+  color: #94a17f;
+  font-size: 10px;
 }
 .home-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  background: #eaf0e0;
-  border: 1px solid #e0e8d6;
-  border-radius: 15px;
-  padding: 32px;
+  gap: 23px;
 }
 .preview-label {
+  font-family: "DM Sans", sans-serif;
   font-size: 12px;
-  color: #8b9c77;
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #7f8e6f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 17px;
 }
-.progress-label {
-  color: #b69b65;
+.preview-label small {
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #a0ad90;
+  background: #fbfcf7;
 }
-.done-label {
-  color: #7e996b;
+.preview-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a6b097;
+}
+.progress-dot {
+  background: #c9ad72;
+}
+.done-dot {
+  background: #8fa77a;
 }
 .preview-card {
   background: white;
-  padding: 24px;
+  border: 1px solid #e4e9da;
   border-radius: 8px;
-  margin-top: 20px;
-  box-shadow: 0 5px 12px #526d3009;
-  min-height: 170px;
+  padding: 19px 20px 13px;
+  box-shadow: 0 3px 7px #526d3005;
+  margin-bottom: 13px;
+  min-height: 178px;
 }
-.preview-card small {
+.preview-tag {
+  display: inline-block;
   font-size: 8px;
-  letter-spacing: 1.2px;
-  color: #a3ae96;
+  letter-spacing: 0.7px;
+  border-radius: 4px;
+  background: #edf1e6;
+  color: #8a9976;
+  padding: 4px 7px;
 }
-.preview-card h2 {
-  font-size: 19px;
-  margin: 17px 0 12px;
+.progress-tag {
+  background: #fbf1de;
+  color: #b39c69;
+}
+.done-tag {
+  background: #e9f2e1;
+  color: #819b69;
+}
+.preview-card h4 {
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.5;
+  letter-spacing: -0.3px;
+  margin: 13px 0 9px;
 }
 .preview-card p {
-  font-size: 12px;
-  color: #97a28a;
+  font-size: 11px;
+  color: #93a084;
   line-height: 1.8;
   margin: 0;
 }
+.preview-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  color: #a5b196;
+  border-top: 1px solid #f0f3ea;
+  margin-top: 17px;
+  padding-top: 10px;
+  min-height: 26px;
+}
+.preview-card footer > span:first-child:not(.done-caption) {
+  font-size: 15px;
+}
+.compact-preview {
+  min-height: 90px;
+  padding: 14px 20px;
+}
+.compact-preview h4 {
+  margin: 3px 0 14px;
+  font-size: 12px;
+}
+.preview-line {
+  display: block;
+  height: 4px;
+  width: 65%;
+  background: #f0f3e9;
+  border-radius: 3px;
+}
+.preview-drop-hint {
+  border: 1px dashed #d4dec6;
+  border-radius: 7px;
+  text-align: center;
+  padding: 19px 13px;
+  font-size: 10px;
+  color: #a2af90;
+  line-height: 1.8;
+}
+.preview-check {
+  color: #86a16e;
+  margin-right: 5px;
+}
 .home-caption {
   text-align: center;
-  color: #9ca88e;
+  color: #9ba88c;
+  font-size: 10px;
+  margin: 18px 0 0;
+}
+.home-features {
+  padding: 85px 0 75px;
+}
+.section-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-intro h2 {
+  font-size: 33px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin: 12px 0 17px;
+}
+.section-intro > p {
+  color: #8d9b7d;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.feature-item {
+  padding: 17px 23px 10px;
+}
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 11px;
+  background: #edf2e4;
+  color: #8b9f72;
+  font-size: 25px;
+  margin-bottom: 23px;
+}
+.warm-icon {
+  background: #faf0e1;
+  color: #b8a06d;
+}
+.lavender-icon {
+  background: #f0edf7;
+  color: #a098b8;
+}
+.feature-item h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin-bottom: 13px;
+}
+.feature-item p {
+  color: #919f82;
+  font-size: 13px;
+  line-height: 1.9;
+  margin: 0;
+}
+.home-how {
+  border-top: 1px solid var(--line);
+  padding: 55px 0 65px;
+}
+.home-how h2 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+.home-text-link {
   font-size: 12px;
-  margin: 24px 0 10px;
+  color: #70875a;
+  text-decoration: none;
+}
+.home-text-link:hover,
+.home-login:hover {
+  color: #36523f;
+  text-decoration: underline;
+}
+.home-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+  list-style: none;
+  padding: 0;
+  margin: 36px 0 0;
+}
+.step-number {
+  display: block;
+  font-family: Manrope, sans-serif;
+  font-size: 28px;
+  letter-spacing: -1px;
+  color: #b1be9e;
+  margin-bottom: 20px;
+}
+.home-steps h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.home-steps p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #94a184;
+  max-width: 265px;
+}
+.home-final-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  background: #eaf0df;
+  border: 1px solid #e0e8d4;
+  border-radius: 13px;
+  padding: 39px 44px;
+  margin: 0 0 15px;
+  overflow: hidden;
+}
+.home-final-cta h2 {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.home-final-cta p {
+  font-size: 13px;
+  color: #8a9a77;
+  margin-bottom: 24px;
+}
+.home-final-cta .eyebrow {
+  font-size: 8px;
+}
+.home-flower {
+  display: block;
+  font-size: 130px;
+  line-height: 1;
+  color: #a5b58c;
+  margin-right: 15px;
+  transform: rotate(10deg);
 }
 @media (max-width: 760px) {
+  .home-hero {
+    padding-top: 18px;
+  }
+  .home-hero h1 {
+    letter-spacing: -2px;
+  }
+  .home-hero > p {
+    font-size: 15px;
+    max-width: 490px;
+  }
+  .home-actions {
+    gap: 17px;
+  }
+  .home-demo {
+    padding: 21px 18px 16px;
+  }
   .home-board {
     gap: 12px;
-    padding: 20px;
+  }
+  .demo-header h2 {
+    font-size: 14px;
+  }
+  .demo-badge {
+    font-size: 8px;
   }
   .preview-card {
-    padding: 17px;
+    padding: 15px 13px 11px;
+    min-height: 193px;
   }
-  .preview-card h2 {
+  .preview-card h4 {
+    font-size: 13px;
+  }
+  .preview-card p {
+    font-size: 10px;
+  }
+  .preview-card footer {
+    font-size: 8px;
+  }
+  .compact-preview {
+    min-height: 85px;
+  }
+  .preview-label {
+    font-size: 10px;
+    gap: 6px;
+  }
+  .preview-drop-hint {
+    font-size: 9px;
+    padding: 12px 9px;
+  }
+  .home-features {
+    padding: 60px 0 45px;
+  }
+  .feature-item {
+    padding: 7px 5px 16px;
+  }
+  .feature-item h3 {
     font-size: 16px;
   }
-  .home-hero {
-    padding-top: 20px;
+  .feature-item p {
+    font-size: 12px;
+  }
+  .home-how {
+    padding: 35px 0 40px;
+  }
+  .home-how h2 {
+    font-size: 24px;
+  }
+  .home-steps {
+    gap: 18px;
+  }
+  .home-final-cta {
+    padding: 30px 25px;
+  }
+  .home-final-cta h2 {
+    font-size: 26px;
+  }
+  .home-flower {
+    font-size: 85px;
+    margin-right: 0;
   }
 }
 @media (max-width: 576px) {
+  .home-hero {
+    padding-bottom: 35px;
+  }
+  .home-hero h1 {
+    font-size: 49px;
+  }
+  .home-hero > p {
+    font-size: 14px;
+  }
+  .home-actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .home-hero .home-signup-note {
+    font-size: 10px;
+  }
+  .demo-header {
+    margin-bottom: 22px;
+  }
+  .demo-badge {
+    max-width: 110px;
+    text-align: center;
+  }
   .home-board {
     grid-template-columns: 1fr;
+    gap: 17px;
   }
   .preview-card {
     min-height: 0;
-    margin-top: 10px;
-    padding: 20px;
+    padding: 18px;
   }
-  .preview-card h2 {
-    margin: 8px 0;
+  .preview-card h4 {
+    font-size: 15px;
   }
-  .home-hero h1 {
-    letter-spacing: -1.6px;
+  .preview-card p {
+    font-size: 12px;
   }
-  .home-hero p {
-    font-size: 14px;
+  .preview-card footer {
+    font-size: 10px;
+  }
+  .preview-label {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .compact-preview,
+  .preview-drop-hint {
+    display: none;
+  }
+  .home-caption {
+    font-size: 9px;
+  }
+  .section-intro h2 {
+    font-size: 29px;
+  }
+  .section-intro {
+    margin-bottom: 30px;
+  }
+  .feature-item {
+    padding: 6px 6px 15px;
+  }
+  .feature-icon {
+    margin-bottom: 15px;
+    width: 38px;
+    height: 38px;
+  }
+  .feature-item h3 {
+    font-size: 19px;
+  }
+  .feature-item p {
+    font-size: 13px;
+  }
+  .home-steps {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 25px;
+  }
+  .home-steps li {
+    position: relative;
+    padding-left: 45px;
+  }
+  .step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 23px;
+    margin: 0;
+  }
+  .home-steps h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+  }
+  .home-steps p {
+    max-width: none;
+    font-size: 13px;
+  }
+  .home-final-cta {
+    padding: 30px 23px;
+  }
+  .home-final-cta h2 {
+    font-size: 27px;
+  }
+  .home-final-cta p {
+    font-size: 12px;
+  }
+  .home-flower {
+    display: none;
   }
 }

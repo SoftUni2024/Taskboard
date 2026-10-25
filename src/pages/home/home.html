@@ -1,42 +1,169 @@
-<section class="home-hero">
-  <div class="eyebrow">A CLEARER WAY TO WORK</div>
-  <h1>Good ideas deserve<br />a little momentum.</h1>
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="eyebrow">LESS SCATTER. MORE PROGRESS.</div>
+  <h1 id="home-title">Big ideas.<br />Clear next steps<span>.</span></h1>
   <p>
-    Your projects, people, and next steps.<br />All together in one calm
-    workspace.
+    Meet Task Board: a simple home for your projects and tasks.<br
+      class="d-none d-md-inline"
+    />
+    Turn a busy to-do list into a plan you can actually see.
   </p>
-  <a href="/dashboard" data-link class="btn btn-primary"
-    >Open your workspace ↗</a
-  ><a href="/login" data-link class="btn btn-link text-muted"
-    >Create account / Sign in</a
+  <div class="home-actions">
+    <a href="/login?return_to=/dashboard" data-link class="btn btn-primary"
+      >Create your account <span aria-hidden="true">↗</span></a
+    ><a href="/login" data-link class="home-login"
+      >Already have an account? <strong>Log in →</strong></a
+    >
+  </div>
+  <p class="home-signup-note">
+    One secure sign-in. Your account is created on your first visit.
+  </p>
+</section>
+<section class="home-demo" aria-labelledby="demo-title">
+  <div class="demo-header">
+    <div>
+      <span class="demo-project-icon" aria-hidden="true">▱</span>
+      <h2 id="demo-title">Your next great project</h2>
+    </div>
+    <span class="demo-badge">A glimpse of your board</span>
+  </div>
+  <div class="home-board">
+    <div class="preview-column">
+      <h3 class="preview-label">
+        <span class="preview-dot"></span>Not Started <small>2</small>
+      </h3>
+      <article class="preview-card">
+        <span class="preview-tag">TO DO</span>
+        <h4>Collect the bright ideas</h4>
+        <p>Give every possibility a place to start.</p>
+        <footer>
+          <span aria-hidden="true">≡</span><span>First things first</span>
+        </footer>
+      </article>
+      <article class="preview-card compact-preview">
+        <h4>Choose the next step</h4>
+        <span class="preview-line" aria-hidden="true"></span>
+      </article>
+    </div>
+    <div class="preview-column">
+      <h3 class="preview-label">
+        <span class="preview-dot progress-dot"></span>In Progress
+        <small>1</small>
+      </h3>
+      <article class="preview-card in-motion">
+        <span class="preview-tag progress-tag">IN MOTION</span>
+        <h4>Make something meaningful</h4>
+        <p>Keep the details close and the bigger picture in view.</p>
+        <footer>
+          <span aria-hidden="true">≡</span><span>A little more momentum</span>
+        </footer>
+      </article>
+      <div class="preview-drop-hint">
+        Move work forward, one task at a time <span aria-hidden="true">→</span>
+      </div>
+    </div>
+    <div class="preview-column">
+      <h3 class="preview-label">
+        <span class="preview-dot done-dot"></span>Done <small>1</small>
+      </h3>
+      <article class="preview-card">
+        <span class="preview-tag done-tag">COMPLETED</span>
+        <h4>
+          <span class="preview-check" aria-hidden="true">✓</span>Take the first
+          step
+        </h4>
+        <p>Small wins add up to great things.</p>
+        <footer>
+          <span class="done-caption">A little progress, made visible.</span>
+        </footer>
+      </article>
+    </div>
+  </div>
+  <p class="home-caption">An example board. Your ideas make it yours.</p>
+</section>
+<section class="home-features" aria-labelledby="features-title">
+  <div class="section-intro">
+    <div class="eyebrow">JUST WHAT YOU NEED</div>
+    <h2 id="features-title">A little structure.<br />A lot more headspace.</h2>
+    <p>
+      Keep the plan simple, the details organized,<br
+        class="d-none d-md-inline"
+      />
+      and the next step easy to find.
+    </p>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <article class="feature-item">
+        <span class="feature-icon" aria-hidden="true">▱</span>
+        <h3>A place for every project</h3>
+        <p>
+          Separate your work into projects with their own description and task
+          board. Switch focus without losing the bigger picture.
+        </p>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <article class="feature-item">
+        <span class="feature-icon warm-icon" aria-hidden="true">⇄</span>
+        <h3>Progress you can see</h3>
+        <p>
+          Move tasks from Not Started to In Progress to Done. Drag cards between
+          columns and reorder them as priorities change.
+        </p>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <article class="feature-item">
+        <span class="feature-icon lavender-icon" aria-hidden="true">≡</span>
+        <h3>Details that stay together</h3>
+        <p>
+          Add clear titles and formatted descriptions. Edit the plan as you
+          learn, with the context right where you need it.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="home-how" aria-labelledby="how-title">
+  <div
+    class="d-flex justify-content-between align-items-end gap-3 flex-wrap mb-4"
   >
+    <div>
+      <div class="eyebrow">FROM IDEA TO ACTION</div>
+      <h2 id="how-title">A fresh start in three small steps.</h2>
+    </div>
+    <a href="/login?return_to=/dashboard" data-link class="home-text-link"
+      >Let’s get started ↗</a
+    >
+  </div>
+  <ol class="home-steps">
+    <li>
+      <span class="step-number">01</span>
+      <h3>Make yourself at home</h3>
+      <p>Create your account or log in to your workspace.</p>
+    </li>
+    <li>
+      <span class="step-number">02</span>
+      <h3>Start your first project</h3>
+      <p>Name the idea, add your tasks, and bring the plan into focus.</p>
+    </li>
+    <li>
+      <span class="step-number">03</span>
+      <h3>Keep the good work moving</h3>
+      <p>Choose your next task, update its stage, and enjoy the progress.</p>
+    </li>
+  </ol>
 </section>
-<section class="home-board" aria-label="A preview of your task board">
+<section class="home-final-cta" aria-labelledby="start-title">
   <div>
-    <span class="preview-label">● Not Started</span>
-    <div class="preview-card">
-      <small>A BRIGHT NEW IDEA</small>
-      <h2>Find the next step</h2>
-      <p>A little clarity goes a long way.</p>
+    <div class="eyebrow">MAKE ROOM FOR WHAT’S NEXT</div>
+    <h2 id="start-title">Your next idea starts here.</h2>
+    <p>A calmer way to organize the work that matters to you.</p>
+    <div class="d-flex gap-3 align-items-center flex-wrap">
+      <a href="/login?return_to=/dashboard" data-link class="btn btn-primary"
+        >Create your account ↗</a
+      ><a href="/login" data-link class="home-text-link">Log in →</a>
     </div>
   </div>
-  <div>
-    <span class="preview-label progress-label">● In Progress</span>
-    <div class="preview-card">
-      <small>MAKING IT HAPPEN</small>
-      <h2>Keep things moving</h2>
-      <p>Bring the right people together.</p>
-    </div>
-  </div>
-  <div>
-    <span class="preview-label done-label">● Done</span>
-    <div class="preview-card">
-      <small>ONE STEP CLOSER</small>
-      <h2>Celebrate the progress</h2>
-      <p>Big things happen one task at a time.</p>
-    </div>
-  </div>
+  <span class="home-flower" aria-hidden="true">✳</span>
 </section>
-<p class="home-caption">
-  A simple place for meaningful work. No clutter, just possibility.
-</p>
