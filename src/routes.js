@@ -1,4 +1,6 @@
 const routes = [
+  {pattern:/^\/project\/([^/]+)\/deadlines$/,load:()=>import("./pages/deadlines/deadlines.js"),protected:true},
+  {pattern:/^\/project\/([^/]+)\/activity$/,load:()=>import("./pages/activity/activity.js"),protected:true},
   { pattern: /^\/project\/([^/]+)\/labels$/, load: () => import("./pages/labels/labels.js"), protected: true },
   {
     pattern: /^\/admin(?:\/projects)?$/,

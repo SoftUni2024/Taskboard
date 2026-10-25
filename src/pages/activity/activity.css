@@ -1,0 +1,5 @@
+.activity-page ol {list-style:none;padding:0;}
+.activity-page li {padding:18px;border:1px solid #e3e8da;border-radius:8px;margin-bottom:12px;background:white;}
+.activity-meta {display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#718164;margin:8px 0;}
+.activity-page pre {white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto;background:#f5f7ef;padding:12px;margin:10px 0 0;font-size:12px;}
+.activity-page summary {cursor:pointer;color:#536b49;font-size:13px;}

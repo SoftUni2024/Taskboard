@@ -2,6 +2,7 @@ import { supabase } from "./supabase.js";
 import { auth, appUser } from "./auth.js";
 import { sanitizeRichText } from "./rich-text.js";
 import { isAdmin } from "./authorization.js";
+import {deadlineValue} from "./deadline-rules.js";
 import {
   removeTaskAttachments,
   removeProjectAttachments,
@@ -178,6 +179,7 @@ export async function mutateBoard(action, values) {
     };
     // Preserve assignment for callers that only edit other task details.
     if (Object.hasOwn(values, "assignee_id")) row.assignee_id = values.assignee_id || null;
+    if (Object.hasOwn(values, "due_on")) row.due_on = deadlineValue(values.due_on);
     if (action === "createTask") {
       await result(
         supabase.from("tasks").insert({

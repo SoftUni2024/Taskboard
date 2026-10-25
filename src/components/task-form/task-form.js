@@ -6,6 +6,7 @@ import { mountTaskAttachments } from "../task-attachments/task-attachments.js";
 import { mountTaskComments } from "../task-comments/task-comments.js";
 import { mountTaskAssignee } from "../task-assignee/task-assignee.js";
 import { mountTaskLabels } from "../task-labels/task-labels.js";
+import {mountChecklist} from "../task-checklist/task-checklist.js";
 export function taskForm(project, task, stage, onSaved, stages) {
   let assignee;
   const dialog = openDialog({
@@ -16,6 +17,11 @@ export function taskForm(project, task, stage, onSaved, stages) {
       ? '<button type="button" class="danger-link" data-delete>Delete task</button>'
       : "",
     onMount(root) {
+      const stopChecklist=mountChecklist(root.querySelector("[data-task-checklist]"),project,task);
+      root.addEventListener("hidden.bs.modal",stopChecklist,{once:true});
+      root.querySelector("[name=due_on]").value=task?.due_on || "";
+      const history=root.querySelector("[data-task-history]");
+      history.hidden=!task;history.href="/project/"+project+"/activity?task="+task?.id;
       const stopLabels = mountTaskLabels(root.querySelector("[data-task-labels]"),project,task,onSaved);
       root.addEventListener("hidden.bs.modal",stopLabels,{once:true});
       assignee = mountTaskAssignee(root.querySelector("[data-task-assignee]"), project, task);

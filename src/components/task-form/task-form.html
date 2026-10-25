@@ -19,6 +19,7 @@
   </select>
 </div>
 <div data-task-assignee></div>
+<div class="mb-3"><label for="task-due" class="form-label">Deadline</label><input type="date" id="task-due" name="due_on" class="form-control"><small class="form-text">Optional calendar date. Leave empty for no deadline.</small></div>
 <label id="task-description-label" class="form-label">Description</label>
 <div class="rich-editor">
   <div class="editor-toolbar" role="toolbar" aria-label="Text formatting">
@@ -45,5 +46,7 @@
 </div>
 
 <div data-task-labels></div>
+<div data-task-checklist></div>
+<a class="d-inline-block small mt-3" data-task-history data-link>View task activity →</a>
 <div data-task-attachments></div>
 <div data-task-comments></div>

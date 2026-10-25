@@ -3,6 +3,7 @@ import "./task-card.css";
 import { textFromHtml } from "../../services/api.js";
 import {labelChip} from "../../services/labels.js";
 import "../task-labels/task-labels.css";
+import {deadlineText,localDay} from "../../services/deadline-rules.js";
 export function taskCard(task, { onOpen, onMove, index, list }) {
   const holder = document.createElement("div");
   holder.innerHTML = template;
@@ -10,6 +11,9 @@ export function taskCard(task, { onOpen, onMove, index, list }) {
   card.dataset.taskId = task.id;
   card.setAttribute("aria-label", "Open task: " + task.title);
   card.querySelector("h3").textContent = task.title;
+  const due=card.querySelector("[data-deadline]");
+  due.textContent=deadlineText(task);due.hidden=!task.due_on;
+  due.classList.toggle("overdue",!!task.due_on&&!task.done&&task.due_on<localDay());
   card.querySelector("[data-labels]").append(...(task.labels || []).map(labelChip));
   card.querySelector("[data-assignee]").textContent = "Responsible: " + (task.assignee_name || "Unassigned");
   const tag = card.querySelector(".task-tag");
