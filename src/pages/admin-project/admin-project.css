@@ -1,0 +1,5 @@
+.admin-project-page [data-description] {
+  max-width: 760px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

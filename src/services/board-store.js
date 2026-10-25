@@ -1,6 +1,7 @@
 import { supabase } from "./supabase.js";
 import { auth, appUser } from "./auth.js";
 import { sanitizeRichText } from "./rich-text.js";
+import { isAdmin } from "./authorization.js";
 import {
   removeTaskAttachments,
   removeProjectAttachments,
@@ -130,7 +131,7 @@ export async function mutateBoard(action, values) {
     const record = await result(
       supabase.from("projects").select("owner_id").eq("id", project).single(),
     );
-    if (record.owner_id !== user.id)
+    if (record.owner_id !== user.id && !(await isAdmin()))
       throw new Error(
         "Only the project owner can edit or delete this project.",
       );

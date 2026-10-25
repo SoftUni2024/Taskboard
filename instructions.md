@@ -36,3 +36,6 @@ Run `npm test` and `npm run build` before publication. Verify real login/logout 
 
 ## Real-time task updates
 Use the project-scoped `project_task_changes` signal table and private task trigger to notify Supabase Realtime subscribers on every task mutation, including deletion. Keep RLS active; send only invalidation IDs and re-fetch authorized rows. Coalesce refreshes, serialize requests, defer during drag/save, preserve open popup drafts and board position, catch up on reconnect/focus, and remove subscriptions/timers when leaving the page.
+
+## Administration
+Use `/admin`, `/admin/projects/{id}`, and `/admin/users` for administration. Keep admin roles in `private.admin_users`, checked through caller-scoped DB helpers. Never trust profile metadata for privileges. Admin project/stage/task operations stay under RLS; Auth user edits/deletions use the server-side `admin-users` Edge Function with verified caller identity and a live admin-role check. Prevent self-demotion/self-deletion; require demotion before deleting another admin. Clean up Storage assets before deleting stages, projects, or users. Never expose or commit `.env.admin` or server-only keys.

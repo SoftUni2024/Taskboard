@@ -1,0 +1,55 @@
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.admin-nav a {
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #526f3f;
+}
+.admin-nav a[aria-current] {
+  background: #e9efdf;
+  font-weight: 600;
+}
+.admin-table {
+  min-width: 720px;
+  --bs-table-bg: transparent;
+}
+.admin-table th {
+  font-size: 12px;
+  background: #eef3e4;
+  color: #6b805a;
+  padding: 14px;
+}
+.admin-table td {
+  font-size: 12px;
+  padding: 14px;
+  overflow-wrap: anywhere;
+}
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.admin-actions button,
+.admin-actions a {
+  font-size: 12px;
+}
+.admin-section {
+  margin-top: 35px;
+}
+.admin-section h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.admin-id {
+  font-size: 10px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}

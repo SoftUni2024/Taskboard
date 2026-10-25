@@ -13,6 +13,10 @@ test("requested routes resolve, including project IDs and trailing slashes", () 
     "/projects/board-123/tasks",
     "/project/board-123/tasks",
     "/projects/board-123/users",
+    "/admin",
+    "/admin/projects",
+    "/admin/projects/board-123",
+    "/admin/users",
     "/dashboard/",
   ])
     assert.ok(matchRoute(path), path);
@@ -26,6 +30,9 @@ test("requested routes resolve, including project IDs and trailing slashes", () 
   assert.equal(matchRoute("/projects/board-123/tasks").protected, true);
   assert.equal(matchRoute("/project/board-123/tasks").protected, true);
   assert.equal(matchRoute("/projects/board-123/users").protected, true);
+  assert.equal(matchRoute("/admin").protected, true);
+  assert.equal(matchRoute("/admin/users").protected, true);
+  assert.equal(matchRoute("/admin/projects/board-123").params.id, "board-123");
   assert.equal(matchRoute("/projects/board-123/users").params.id, "board-123");
   assert.equal(matchRoute("/project/board-123/tasks").params.id, "board-123");
   assert.equal(matchRoute("/project/%invalid/tasks"), null);

@@ -1,0 +1,38 @@
+<section>
+  <div data-admin-nav></div>
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">ADMINISTRATION</div>
+      <h1>All users</h1>
+      <p>Review accounts and manage user details and roles.</p>
+    </div>
+  </div>
+  <p class="small text-muted">
+    You cannot delete yourself or an administrator. Remove another
+    administrator’s role before deleting their account.
+  </p>
+  <input
+    class="form-control search-box mb-4"
+    type="search"
+    aria-label="Search all users"
+    placeholder="Search name or email…"
+  />
+  <div class="table-responsive">
+    <table class="table admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="d-flex gap-3 align-items-center mt-3">
+    <button class="btn btn-outline-primary btn-sm" data-prev>Previous</button
+    ><span class="small text-muted" data-page></span
+    ><button class="btn btn-outline-primary btn-sm" data-next>Next</button>
+  </div>
+</section>
