@@ -24,7 +24,7 @@ Open `http://127.0.0.1:5173`. Browser configuration in `src/services/supabase.js
 | `/projects` | Searchable project table with descriptions, stage counts, and open/done task totals |
 | `/project/add` | Create a project with three default stages |
 | `/project/{id}/edit` | Edit an owned project's title and description |
-| `/projects/{id}/tasks` | Current user's project board |
+| `/project/{id}/tasks` | Current user's project board |
 | `/account` | Display-name settings and logout |
 
 Registration accepts a display name, email, password, and matching password confirmation. Supabase email confirmations are disabled for this project, so registration establishes a session immediately. Successful registration/login redirects to `/dashboard`. Logout clears the current app session and returns to `/`. Sessions persist across refreshes and refresh automatically; logout is synchronized across tabs.

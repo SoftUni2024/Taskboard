@@ -54,9 +54,10 @@ export async function mount(root, { id }) {
       column.className = "board-column stage-" + index;
       column.setAttribute("aria-label", stage);
       column.innerHTML =
-        '<div class="column-heading"><h2><span class="stage-dot"></span><span data-stage></span><small></small></h2><button class="btn btn-sm" aria-label="Add task to ' +
-        stage +
-        '">＋</button></div><div class="column-cards"></div><button class="column-add">＋ Add task</button>';
+        '<div class="column-heading"><h2><span class="stage-dot"></span><span data-stage></span><small></small></h2><button class="btn btn-sm">＋</button></div><div class="column-cards"></div><button class="column-add">＋ Add task</button>';
+      column
+        .querySelector(".column-heading button")
+        .setAttribute("aria-label", `Add task to ${stage}`);
       column.querySelector("[data-stage]").textContent = stage;
       column.querySelector("h2 small").textContent = list.length;
       column
@@ -93,7 +94,7 @@ export async function mount(root, { id }) {
               "Every great project starts here.",
               "Ready when you are.",
               "Good things take a few steps.",
-            ][index];
+            ][index] || "No tasks in this stage yet.";
         cards.append(empty);
       }
       column.ondragover = (e) => {

@@ -9,6 +9,6 @@ export async function mount(root, { id }) {
   if (!data) return;
   const { project } = await getBoard(id);
   root.querySelector("[data-project-heading]").textContent = project.title;
-  root.querySelector("[data-view-tasks]").href = `/projects/${id}/tasks`;
+  root.querySelector("[data-view-tasks]").href = `/project/${id}/tasks`;
   return mountProjectForm(root.querySelector("[data-project-form]"), project);
 }

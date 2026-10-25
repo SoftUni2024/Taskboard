@@ -5,7 +5,7 @@ export function projectCard(project, user) {
   wrapper.className = "col-sm-6 col-lg-4";
   wrapper.innerHTML = template;
   const card = wrapper.firstElementChild;
-  card.href = "/projects/" + project.id + "/tasks";
+  card.href = "/project/" + project.id + "/tasks";
   card.querySelector(".project-icon").style.background = project.color;
   card.querySelector("[data-role]").textContent =
     project.owner === user.id ? "YOUR PROJECT" : "SHARED WITH YOU";

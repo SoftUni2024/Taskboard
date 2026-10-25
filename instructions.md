@@ -16,7 +16,7 @@ Keep the responsive, calm green visual style. Label inputs and icon controls; su
 - `/projects`: searchable table of owned projects, truncated descriptions, stage counts, and aggregate open/done task counts. Link to View Tasks and edit; confirm deletion in a popup.
 - `/project/add`: separate project creation page; create three default stages atomically.
 - `/project/{id}/edit`: separate owner-only project editing page.
-- `/projects/{id}/tasks`: owner-only task board and project settings.
+- `/project/{id}/tasks`: owner-only task board and project settings.
 - `/account`: display name and logout.
 Successful login/registration goes to `/dashboard`; logout goes to `/`. Signed-out users cannot open protected pages. Handle back/forward navigation and deep-link refreshes.
 

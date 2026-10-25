@@ -36,7 +36,7 @@ export async function mount(root) {
       const row = document.createElement("tr");
       row.innerHTML =
         '<td><a class="project-title-link" data-link></a></td><td><span class="project-description"></span></td><td class="text-center"><span class="project-number" data-stages></span></td><td class="text-center"><span class="project-number open-number" data-open></span></td><td class="text-center"><span class="project-number done-number" data-done></span></td><td><div class="project-row-actions"><a class="view-tasks-link" data-link>View Tasks →</a><a data-edit data-link>Edit</a><button type="button" class="delete-project">Delete</button></div></td>';
-      const tasksUrl = `/projects/${project.id}/tasks`;
+      const tasksUrl = `/project/${project.id}/tasks`;
       row.querySelector(".project-title-link").textContent = project.title;
       row.querySelector(".project-title-link").href = tasksUrl;
       row.querySelector(".project-description").textContent =
