@@ -1,3 +1,8 @@
+[data-account-nav] {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .site-header {
   background: #f5f6ef;
   border-bottom: 1px solid var(--line);

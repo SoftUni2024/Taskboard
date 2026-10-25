@@ -1,17 +1,77 @@
-<section class="login-panel surface">
+<section class="login-panel surface" aria-labelledby="auth-title">
   <span class="login-flower" aria-hidden="true">✳</span>
-  <div class="eyebrow">WELCOME TO YOUR NEXT CHAPTER</div>
-  <h1>A little space<br />to do big things.</h1>
-  <p class="text-muted my-4">
-    Sign in securely with ChatGPT to create projects, bring your people
-    together, and keep work moving.
+  <div class="eyebrow">YOUR WORKSPACE STARTS HERE</div>
+  <h1 id="auth-title">Welcome back.</h1>
+  <p class="text-muted login-intro" data-intro>
+    Log in to pick up where you left off.
   </p>
-  <a class="btn btn-primary w-100" data-signin target="_top"
-    >Continue with ChatGPT ↗</a
-  >
-  <p class="login-note">
-    New here? Your Task Board account is created automatically on your first
-    sign-in.
+  <div class="auth-mode" aria-label="Account action">
+    <button type="button" data-mode="login" aria-pressed="true">Log in</button
+    ><button type="button" data-mode="register" aria-pressed="false">
+      Register
+    </button>
+  </div>
+  <div
+    class="alert alert-danger d-none text-start"
+    role="alert"
+    data-error
+  ></div>
+  <form class="auth-form">
+    <div class="mb-3 d-none" data-name-field>
+      <label class="form-label" for="auth-name">Display name</label
+      ><input
+        class="form-control"
+        name="name"
+        id="auth-name"
+        autocomplete="name"
+        maxlength="80"
+        disabled
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="auth-email">Email address</label
+      ><input
+        class="form-control"
+        type="email"
+        name="email"
+        id="auth-email"
+        autocomplete="email"
+        required
+        maxlength="254"
+        placeholder="you@example.com"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="auth-password">Password</label
+      ><input
+        class="form-control"
+        type="password"
+        name="password"
+        id="auth-password"
+        autocomplete="current-password"
+        required
+        minlength="6"
+        placeholder="At least 6 characters"
+      />
+    </div>
+    <div class="mb-3 d-none" data-confirm-field>
+      <label class="form-label" for="auth-confirm">Confirm password</label
+      ><input
+        class="form-control"
+        type="password"
+        name="confirm"
+        id="auth-confirm"
+        autocomplete="new-password"
+        minlength="6"
+        disabled
+      />
+    </div>
+    <button class="btn btn-primary w-100 mt-2" type="submit" data-submit>
+      Log in →
+    </button>
+  </form>
+  <p class="login-note" data-note>
+    Your projects. Your progress. Right where you left them.
   </p>
   <a href="/" data-link class="small text-muted">← Back to home</a>
 </section>

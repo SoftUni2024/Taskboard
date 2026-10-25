@@ -15,28 +15,11 @@ export function projectForm(project, onSaved) {
       root.querySelector("[name=title]").value = project?.title || "";
       root.querySelector("[name=description]").value =
         project?.description || "";
-      const color = root.querySelector("[name=color]");
-      color.value = project?.color || "#8b9b73";
-      for (const c of ["#8b9b73", "#8d86bb", "#d49a71", "#7ca5af", "#c78091"]) {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "color-choice";
-        b.style.background = c;
-        b.setAttribute("aria-label", "Choose " + c);
-        b.setAttribute("aria-pressed", String(color.value === c));
-        b.onclick = () => {
-          color.value = c;
-          root
-            .querySelectorAll(".color-choice")
-            .forEach((el) => el.setAttribute("aria-pressed", String(el === b)));
-        };
-        root.querySelector("[data-colors]").append(b);
-      }
       root.querySelector("[data-delete]")?.addEventListener("click", () => {
         dialog.hide();
         confirmDelete(
           "Delete project?",
-          `Permanently delete “${project.title}” and all its tasks and memberships? This cannot be undone.`,
+          `Permanently delete “${project.title}” and all its stages and tasks? This cannot be undone.`,
           async () => {
             await api("deleteProject", { project: project.id });
             notify("Project deleted");

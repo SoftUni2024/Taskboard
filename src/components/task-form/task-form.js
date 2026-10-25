@@ -2,7 +2,7 @@ import template from "./task-form.html?raw";
 import "./task-form.css";
 import { openDialog, confirmDelete } from "../dialog/dialog.js";
 import { api, notify } from "../../services/api.js";
-export function taskForm(project, task, stage, onSaved) {
+export function taskForm(project, task, stage, onSaved, stages) {
   const dialog = openDialog({
     title: task ? "Task details" : "Add a task",
     body: template,
@@ -12,6 +12,17 @@ export function taskForm(project, task, stage, onSaved) {
       : "",
     onMount(root) {
       root.querySelector("[name=title]").value = task?.title || "";
+      if (stages) {
+        const select = root.querySelector("[name=stage]");
+        select.replaceChildren(
+          ...stages.map((s, i) => {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = s.name;
+            return option;
+          }),
+        );
+      }
       root.querySelector("[name=stage]").value = task?.stage ?? stage;
       const editor = root.querySelector(".task-editor");
       editor.innerHTML = task?.description || "";

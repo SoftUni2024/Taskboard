@@ -54,6 +54,6 @@ Do not apply the exported SQL again to the connected database: both migrations a
 
 `tests/owner_rls.sql` runs with an administrative connection in a transaction that rolls back all temporary users and records. It verifies owner CRUD, cross-user read/write denial, ownership reassignment denial, stage/project consistency, anonymous denial, and cascading deletion. The test passed on the connected project. Supabase's security advisor returned no findings after the migrations.
 
-## Application integration boundary
+## Application integration
 
-This change provisions the Supabase schema and RLS. The deployed application still uses its existing D1 backend and ChatGPT sign-in. Switching the frontend/backend to Supabase Auth and these tables is a separate application change; no live application records were moved or deleted.
+The app now uses Supabase Auth email/password sessions and these RLS-protected tables. Registration/login redirects to Dashboard; logout redirects to Index. The legacy D1 records remain untouched and are no longer used by the app. Project creation and task movement use the invoker-rights functions in the supabase_app_operations migration.

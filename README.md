@@ -1,57 +1,53 @@
 # Task Board
 
-A multi-page task-management app built with Vite, JavaScript, HTML, CSS, and Bootstrap. No frontend framework is required.
+A multi-page project-management app built with Vite, vanilla JavaScript, HTML, CSS, Bootstrap, and Supabase Auth/Postgres.
 
 ## Run locally
 
-Requires Node.js 24+ (Vite supports Node 22.13+; the integration tests use Node SQLite).
+Requires Node.js 24+ for the complete test suite.
 
 ```sh
 npm ci
-npm run build
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_dazzling_stranger.sql
 npm run dev
 ```
 
-Apply the migration only once per local database. Open the printed loopback URL, normally `http://127.0.0.1:5173`. The development-only Sites middleware simulates a test account. Production identity comes from ChatGPT sign-in.
+Open `http://127.0.0.1:5173`. Browser configuration in `src/services/supabase.js` contains the project's public URL and publishable key. Every data request is protected by Supabase RLS. Never put secret/service-role keys in browser code or `VITE_*` variables.
 
-## Routes
+## Pages and authentication
 
 | URL | Page |
 | --- | --- |
-| `/` | Home |
-| `/login` | Sign-in / automatic profile registration |
-| `/dashboard` | Projects and progress overview |
-| `/projects/{id}/tasks` | Project task board |
-| `/account` | Account settings |
+| `/` | Visitor landing page |
+| `/login` | Email/password login and registration |
+| `/login?mode=register` | Registration mode |
+| `/dashboard` | Current user's projects and progress |
+| `/projects/{id}/tasks` | Current user's project board |
+| `/account` | Display-name settings and logout |
 
-The History API router intercepts internal `data-link` anchors, handles back/forward navigation, and dynamically imports each page. Unknown URLs display a not-found page. Protected pages redirect visitors to `/login` with a safe return URL. Hosting serves `index.html` for deep links, including browser refreshes.
+Registration accepts a display name, email, password, and matching password confirmation. Supabase email confirmations are disabled for this project, so registration establishes a session immediately. Successful registration/login redirects to `/dashboard`. Logout clears the current app session and returns to `/`. Sessions persist across refreshes and refresh automatically; logout is synchronized across tabs.
+
+Protected pages redirect signed-out visitors to `/login`. Supabase RLS independently enforces access to each user's own projects, stages, and tasks. No project-members table or member management is used.
 
 ## Modular structure
 
-```text
-index.html
-vite.config.js          # Auth middleware, Workers plugin, dev/preview/build settings
-src/
-  main.js               # Header + page outlet + footer
-  router.js             # Navigation lifecycle and History API
-  routes.js             # Route definitions and safe return paths
-  components/           # header, footer, dialog, project-card, project-form,
-                        # task-card, task-form, members
-  pages/                # home, login, dashboard, tasks, account, not-found
-  services/api.js       # Fetch client and safe text helpers
-  styles/global.css
-server/board.js         # Validated, authorized database API
-worker/index.js         # API dispatch and static asset fallback
-db/schema.ts            # Drizzle schema (tooling only)
-drizzle/                # Versioned D1 migrations
-```
+Each page and UI component owns HTML, CSS, and JavaScript files. The shared layout composes a header, page outlet, and footer. The History API router supports internal links, browser back/forward, unknown routes, and deep-link refreshes. Vite dynamically imports page fragments using `?raw` and creates page-specific chunks.
 
-Every page and UI component owns its `.html`, `.css`, and `.js` files. Vite imports HTML fragments using `?raw`, bundles CSS, and creates separate lazy-loaded page chunks. Bootstrap supplies the responsive grid, forms, buttons, and accessible modal behavior.
+- `src/services/auth.js`: Supabase registration, login, current user, logout.
+- `src/services/board-store.js`: RLS-protected Supabase data operations.
+- `src/services/rich-text.js`: sanitizes descriptions on reads and writes.
+- `src/services/supabase.js`: publishable client configuration.
+- `supabase/migrations/`: applied SQL schema, RLS, and transactional operations.
+- `supabase/tests/`: rollback-only live database verification.
 
-## Features and checks
+Project creation atomically creates the three default stages. Task moves and reorders use an invoker-rights database function that keeps RLS active. Projects and tasks support creation, editing, deletion, descriptions, stage movement, and ordering. Project colors are derived display accents rather than additional schema fields.
 
-Project/task creation, editing, deletion, memberships, rich-text descriptions, task movement, persistent ordering, search, profiles, and server-side authorization are implemented. Drag tasks between columns or before another card; use arrow buttons to reorder and the task editor to select a stage on touch or keyboard.
+The previous D1 implementation remains as historical source/data; the app no longer calls it. Its old `/api/board` endpoint returns HTTP 410. No existing D1 records were migrated or deleted.
+
+## Sample data
+
+See `supabase/SEEDING.md`. The seeded users are `steve@gmail.com`, `maria@gmail.com`, and `peter@gmail.com`, each with sample password `pass123`. Login shows only the projects owned by that user. Seed admin credentials belong only in the ignored `.env.seed` file or process environment.
+
+## Validation
 
 ```sh
 npm test
@@ -59,10 +55,8 @@ npm run build
 npm run preview
 ```
 
-Tests cover the actual API handlers with isolated SQLite storage, project/task permissions and revocation, CRUD, ordering, stage changes, rich-text sanitization, route matching, and safe login redirects.
+Tests cover Auth service behavior, registration-session requirements, expired sessions, logout, rich-text safety, routing, seeds, and the legacy API. SQL tests cover owner-only RLS, default stages, transactional task moves, and completion flags.
 
-## Deployment
+## Hosting
 
-Sites configuration is in `.openai/hosting.json`. The Vite Cloudflare plugin builds `dist/client` and `dist/server`; the Sites plugin includes the manifest and migrations. Publish using the Sites source/build/package workflow.
-
-The existing site remains private. Project members also need hosting-level access. Adding a member does not send email or change the hosting audience. Optional real-time sync, attachments, comments, labels, deadlines, checklists, administration, and paging are not included.
+Sites configuration is in `.openai/hosting.json`. The Cloudflare Vite plugin builds `dist/client` and `dist/server`. The Site remains private under its existing hosting access policy. The hosting sign-in gate is separate from Task Board's Supabase email/password login. Supabase migrations are applied to Supabase separately from Site deployments; do not put them in the legacy D1 migration folder.

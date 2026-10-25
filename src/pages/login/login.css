@@ -1,34 +1,70 @@
 .login-panel {
   max-width: 470px;
-  margin: 25px auto 50px;
-  padding: 45px 40px;
+  margin: 15px auto 40px;
+  padding: 36px 38px;
   text-align: center;
 }
 .login-flower {
   display: block;
-  font-size: 58px;
+  font-size: 46px;
   line-height: 1;
   color: #93a87b;
-  margin: 0 auto 30px;
+  margin: 0 auto 24px;
 }
 .login-panel h1 {
-  font-size: 36px;
+  font-size: 34px;
   line-height: 1.25;
 }
-.login-panel p {
-  font-size: 14px;
+.login-intro {
+  font-size: 13px;
   line-height: 1.8;
+  margin: 15px 0 23px;
+}
+.auth-mode {
+  display: flex;
+  padding: 4px;
+  background: #edf1e5;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  gap: 5px;
+}
+.auth-mode button {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  border-radius: 5px;
+  padding: 9px;
+  color: #8a9978;
+  font-size: 12px;
+}
+.auth-mode button[aria-pressed="true"] {
+  background: #fff;
+  color: #36523f;
+  box-shadow: 0 2px 5px #36523f0b;
+}
+.auth-form {
+  text-align: left;
+}
+.auth-form .form-label {
+  font-size: 12px;
+}
+.auth-form .form-control {
+  font-size: 13px;
 }
 .login-note {
-  font-size: 11px !important;
+  font-size: 11px;
   color: #9ca78e;
-  margin: 20px 0 26px;
+  margin: 20px 0 22px;
+  line-height: 1.8;
+}
+.login-panel .alert {
+  font-size: 12px;
 }
 @media (max-width: 576px) {
   .login-panel {
-    padding: 35px 25px;
+    padding: 30px 24px;
   }
   .login-panel h1 {
-    font-size: 31px;
+    font-size: 29px;
   }
 }

@@ -48,7 +48,7 @@ This command first ensures the sample users exist, then creates four projects, t
 
 Every project has `Not Started`, `In Progress`, and `Done` stages at positions 0, 1, and 2. Tasks occupy all three stages with ordered positions within each column. Tasks in `Done` have `done = true`; other sample tasks have `done = false`.
 
-Sample content is defined in `scripts/sample-projects.mjs`. Stable UUIDs and insert-only upserts make repeat runs safe without duplicating rows or overwriting later edits. Deleted sample rows are recreated when the seed runs again. Run a single seed process at a time. Existing unrelated records are left unchanged. These records are stored in Supabase; the deployed D1-backed app will display them after its separate Supabase integration.
+Sample content is defined in `scripts/sample-projects.mjs`. Stable UUIDs and insert-only upserts make repeat runs safe without duplicating rows or overwriting later edits. Deleted sample rows are recreated when the seed runs again. Run a single seed process at a time. Existing unrelated records are left unchanged. These records are stored in Supabase and are displayed in the owning user’s dashboard after email/password login.
 
 ## Tests
 

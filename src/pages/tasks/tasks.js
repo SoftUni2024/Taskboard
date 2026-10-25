@@ -10,7 +10,6 @@ import {
 import { taskCard } from "../../components/task-card/task-card.js";
 import { taskForm } from "../../components/task-form/task-form.js";
 import { projectForm } from "../../components/project-form/project-form.js";
-import { membersDialog } from "../../components/members/members.js";
 import { closeDialogs } from "../../components/dialog/dialog.js";
 export { template };
 export const title = "Project tasks";
@@ -44,7 +43,7 @@ export async function mount(root, { id }) {
     }
   }
   function openTask(task, stage = 0) {
-    taskForm(id, task, stage, refresh);
+    taskForm(id, task, stage, refresh, data.stages);
   }
   function render() {
     root.querySelector("[data-title]").textContent = data.project.title;
@@ -53,11 +52,10 @@ export async function mount(root, { id }) {
     root.querySelector("[data-settings]").hidden =
       data.project.owner !== data.user.id;
     root.querySelector("[data-count]").textContent = data.tasks.length;
-    root.querySelector("[data-members]").textContent =
-      "Members · " + (data.members.length + 1);
     const columns = root.querySelector("[data-columns]");
     columns.replaceChildren();
-    ["Not Started", "In Progress", "Done"].forEach((stage, index) => {
+    data.stages.forEach((stageRecord, index) => {
+      const stage = stageRecord.name;
       const list = data.tasks.filter((t) => t.stage === index),
         column = document.createElement("section");
       column.className = "board-column stage-" + index;
@@ -128,8 +126,6 @@ export async function mount(root, { id }) {
   root.querySelector("[data-add]").onclick = () => openTask();
   root.querySelector("[data-settings]").onclick = () =>
     projectForm(data.project, refresh);
-  root.querySelector("[data-members]").onclick = () =>
-    membersDialog(data, refresh);
   root.querySelector("[data-refresh]").onclick = () =>
     refresh()
       .then(() => notify("Board refreshed"))

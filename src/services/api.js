@@ -1,24 +1,7 @@
 import { navigate } from "../router.js";
-export async function api(action, values = {}) {
-  const response = await fetch("/api/board", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action, ...values }),
-  });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || "Could not save changes.");
-  return result;
-}
-export async function getBoard(project, signal) {
-  const response = await fetch(
-    "/api/board" + (project ? "?project=" + encodeURIComponent(project) : ""),
-    { signal },
-  );
-  const result = await response.json();
-  if (!response.ok)
-    throw new Error(result.error || "Could not load workspace.");
-  return result;
-}
+import { loadBoard, mutateBoard } from "./board-store.js";
+export const getBoard = loadBoard;
+export const api = mutateBoard;
 export function escapeHtml(value) {
   return String(value ?? "").replace(
     /[&<>"']/g,
