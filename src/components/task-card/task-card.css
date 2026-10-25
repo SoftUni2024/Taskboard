@@ -1,4 +1,5 @@
 .task-card {
+  user-select: none;
   background: white;
   border: 1px solid #e3e8da;
   border-radius: 8px;

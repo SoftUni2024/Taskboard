@@ -5,6 +5,7 @@ import { taskCard } from "../../components/task-card/task-card.js";
 import { taskForm } from "../../components/task-form/task-form.js";
 import { navigate } from "../../router.js";
 import { closeDialogs } from "../../components/dialog/dialog.js";
+import { mountBoardDrag } from "../../components/task-card/board-drag.js";
 export { template };
 export const title = "Project tasks";
 export async function mount(root, { id }) {
@@ -12,7 +13,6 @@ export async function mount(root, { id }) {
   if (!userData) return;
   let data = await getBoard(id),
     busy = false,
-    drag = null,
     active = true;
   const search = root.querySelector("[type=search]");
   async function refresh() {
@@ -23,16 +23,27 @@ export async function mount(root, { id }) {
   async function move(task, stage, before) {
     if (busy || task === before) return;
     busy = true;
+    root
+      .querySelectorAll(".task-card")
+      .forEach((card) => (card.draggable = false));
     root.querySelector("[data-status]").textContent = "Saving changes…";
+    let saved = false;
     try {
       await api("moveTask", { project: id, id: task, stage, before });
       await refresh();
+      saved = true;
     } catch (e) {
       showError(root, e);
     } finally {
       busy = false;
-      root.querySelector("[data-status]").textContent =
-        "● All changes saved to your workspace";
+      if (active) {
+        root
+          .querySelectorAll(".task-card")
+          .forEach((card) => (card.draggable = !search.value));
+        root.querySelector("[data-status]").textContent = saved
+          ? "● All changes saved to your workspace"
+          : "Changes could not be saved. Please try again.";
+      }
     }
   }
   function openTask(task, stage = 0) {
@@ -75,17 +86,8 @@ export async function mount(root, { id }) {
           onMove: move,
           index: i,
           list,
-          onDragStart(value) {
-            drag = value;
-          },
-          onDragEnd() {
-            drag = null;
-            root
-              .querySelectorAll(".drop-before")
-              .forEach((el) => el.classList.remove("drop-before"));
-          },
         });
-        card.draggable = !search.value;
+        card.draggable = !search.value && !busy;
         cards.append(card);
       });
       if (!cards.childElementCount) {
@@ -100,22 +102,7 @@ export async function mount(root, { id }) {
             ][index] || "No tasks in this stage yet.";
         cards.append(empty);
       }
-      column.ondragover = (e) => {
-        if (drag) {
-          e.preventDefault();
-          column.classList.add("drop-active");
-        }
-      };
-      column.ondragleave = (e) => {
-        if (!column.contains(e.relatedTarget))
-          column.classList.remove("drop-active");
-      };
-      column.ondrop = (e) => {
-        e.preventDefault();
-        column.classList.remove("drop-active");
-        const task = e.dataTransfer.getData("text/plain");
-        if (task) move(task, index);
-      };
+      column.dataset.stage = index;
       columns.append(column);
     });
   }
@@ -125,8 +112,13 @@ export async function mount(root, { id }) {
     navigate(`/project/${id}/edit`);
   root.querySelector("[data-refresh]").onclick = () =>
     refresh().catch((e) => showError(root, e));
+  const stopDrag = mountBoardDrag(root.querySelector("[data-columns]"), {
+    canDrag: () => active && !busy && !search.value,
+    onMove: move,
+  });
   render();
   return () => {
+    stopDrag();
     active = false;
     closeDialogs();
   };

@@ -151,3 +151,14 @@
     max-width: 180px;
   }
 }
+.task-drop-placeholder {
+  border: 2px dashed #829b6d;
+  border-radius: 8px;
+  background: #dfe9d580;
+  margin-bottom: 13px;
+  height: 8px;
+  pointer-events: none;
+}
+.board-column.drop-active .column-empty {
+  display: none;
+}

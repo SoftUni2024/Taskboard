@@ -1,10 +1,7 @@
 import template from "./task-card.html?raw";
 import "./task-card.css";
 import { textFromHtml } from "../../services/api.js";
-export function taskCard(
-  task,
-  { onOpen, onMove, index, list, onDragStart, onDragEnd },
-) {
+export function taskCard(task, { onOpen, onMove, index, list }) {
   const holder = document.createElement("div");
   holder.innerHTML = template;
   const card = holder.firstElementChild;
@@ -37,28 +34,5 @@ export function taskCard(
   down.disabled = index === list.length - 1;
   up.onclick = () => onMove(task.id, task.stage, list[index - 1]?.id);
   down.onclick = () => onMove(task.id, task.stage, list[index + 2]?.id);
-  card.ondragstart = (e) => {
-    e.dataTransfer.setData("text/plain", task.id);
-    e.dataTransfer.effectAllowed = "move";
-    card.classList.add("dragging");
-    onDragStart(task.id);
-  };
-  card.ondragend = () => {
-    card.classList.remove("dragging");
-    onDragEnd();
-  };
-  card.ondragover = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    card.classList.add("drop-before");
-  };
-  card.ondragleave = () => card.classList.remove("drop-before");
-  card.ondrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    card.classList.remove("drop-before");
-    const id = e.dataTransfer.getData("text/plain");
-    if (id && id !== task.id) onMove(id, task.stage, task.id);
-  };
   return card;
 }
