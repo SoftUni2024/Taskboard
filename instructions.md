@@ -48,3 +48,6 @@ Use the task-comments component in existing task popups. Keep comments plain tex
 
 ## Task responsibility
 Use nullable tasks.assignee_id for one responsible person per task. The task-assignee component lists only the project's owner and current members, plus Unassigned. Validate eligibility in PostgreSQL as well as the UI, retain task RLS, clear assignments on membership removal/account deletion, and show safe display names on board cards. Keep assignments on moves and refresh them through existing Realtime task signals.
+
+## Labels and label navigation
+Use project_labels for project-scoped names/colors and task_labels for many-to-many task links. Protect both with collaborator RLS and composite project/task/label foreign keys; allow only name/color updates on labels. Add/remove labels immediately in existing task popups, with safe text/color chips on board cards. The board links to /project/{id}/labels for label management and paginated task filtering. Confirm label deletion, preserve tasks, refresh through project invalidation, and clean up popup/page subscriptions.

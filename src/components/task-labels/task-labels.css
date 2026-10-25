@@ -1,0 +1,6 @@
+.task-labels { margin-top: 24px; border-top: 1px solid #e3e8da; padding-top: 20px; }
+.task-labels h3 {font-size:16px;margin:0;}
+.task-labels a {font-size:12px;color:#536b49;}
+.task-label-chip {display:inline-block;border:1px solid;border-radius:5px;padding:3px 8px;font-size:11px;color:#34442d;overflow-wrap:anywhere;}
+.task-labels label {display:flex;align-items:center;gap:6px;cursor:pointer;}
+.task-label-list {display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}

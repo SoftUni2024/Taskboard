@@ -16,6 +16,7 @@ import {
 export { template };
 export const title = "Project tasks";
 export async function mount(root, { id }) {
+  root.querySelector("[data-labels-page]").href = "/project/" + id + "/labels";
   const userData = await requireUser(false);
   if (!userData) return;
   let limits = {},

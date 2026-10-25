@@ -1,6 +1,7 @@
 import { supabase } from "./supabase.js";
 import { sanitizeRichText } from "./rich-text.js";
 import { taskAssignees, assigneeName } from "./task-assignees.js";
+import {labelsFromTask} from "./labels.js";
 export const PROJECT_PAGE_SIZE = 20;
 export const TASK_BATCH_SIZE = 20;
 export function normalizePage(value) {
@@ -77,7 +78,7 @@ export async function loadPagedBoard(project, user, limits = {}, search = "") {
       for (let offset = 0; offset < limit; offset += 500) {
         let q = supabase
           .from("tasks")
-          .select("*", { count: "exact" })
+          .select("*,task_labels(project_labels(id,name,color))", { count: "exact" })
           .eq("project_id", project)
           .eq("stage_id", stage.id)
           .order("position")
@@ -97,6 +98,7 @@ export async function loadPagedBoard(project, user, limits = {}, search = "") {
         tasks: rows.map((task) => ({
           ...task,
           assignee_name: assigneeName(task, people),
+          labels: labelsFromTask(task),
           project: task.project_id,
           stage: index,
           stage_name: stage.name,

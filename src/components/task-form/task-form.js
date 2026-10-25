@@ -5,6 +5,7 @@ import { api, notify, notifyError } from "../../services/api.js";
 import { mountTaskAttachments } from "../task-attachments/task-attachments.js";
 import { mountTaskComments } from "../task-comments/task-comments.js";
 import { mountTaskAssignee } from "../task-assignee/task-assignee.js";
+import { mountTaskLabels } from "../task-labels/task-labels.js";
 export function taskForm(project, task, stage, onSaved, stages) {
   let assignee;
   const dialog = openDialog({
@@ -15,6 +16,8 @@ export function taskForm(project, task, stage, onSaved, stages) {
       ? '<button type="button" class="danger-link" data-delete>Delete task</button>'
       : "",
     onMount(root) {
+      const stopLabels = mountTaskLabels(root.querySelector("[data-task-labels]"),project,task,onSaved);
+      root.addEventListener("hidden.bs.modal",stopLabels,{once:true});
       assignee = mountTaskAssignee(root.querySelector("[data-task-assignee]"), project, task);
       root.addEventListener("hidden.bs.modal", () => assignee.stop(), { once: true });
       const stopComments = mountTaskComments(

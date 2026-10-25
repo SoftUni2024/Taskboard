@@ -99,3 +99,9 @@ Discussion loads the newest 30 comments first, with an older-comments control. S
 ## Task assignees
 
 Task creation and editing include a Responsible person selector with Unassigned, the project owner, and current members. The board shows the responsible person's name. Owners, members, and admins can change assignments through existing task permissions. Database validation rejects unrelated users even for direct API writes. Removing project membership clears that person's assignments; deleting an Auth user also unassigns tasks. Assignment changes use the existing Realtime task invalidation stream. `node --env-file=.env.admin scripts/test-assignees.mjs` checks persistence, moves, unassignment, invalid targets, access restrictions, and membership cleanup with an isolated project.
+
+## Task labels
+
+Project collaborators manage named, colored labels at `/project/{id}/labels`, reached from the board's Labels link. The page filters tasks by label, lists title/stage/completion/responsible person, opens task popups, and pages results in batches of 20. It supports label creation, editing and confirmed deletion. Deleting a label removes its task links without deleting tasks.
+
+Existing task popups have independent, immediately saved label checkboxes; create a task before attaching labels. Cards show all attached labels. `project_labels` and `task_labels` use owner/member/admin RLS, immutable project references, unique names per project and composite foreign keys to reject cross-project links. Label and link mutations reuse the project Realtime invalidation stream. `node scripts/test-labels.mjs` verifies multiple labels, filtering/pagination, access restrictions, duplicate names, cross-project isolation, invalidation and deletion behavior with isolated temporary projects.

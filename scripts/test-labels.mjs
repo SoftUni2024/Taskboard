@@ -1,0 +1,60 @@
+import assert from "node:assert/strict";
+import {writeFileSync} from "node:fs";
+import {createClient} from "@supabase/supabase-js";
+import {supabase as owner,SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY} from "../src/services/supabase.js";
+import {projectLabels,taskLabelIds,setTaskLabel,saveLabel,deleteLabel,labeledTaskPage} from "../src/services/labels.js";
+import {loadPagedBoard} from "../src/services/paged-data.js";
+const client=()=>createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+const member=client(),outsider=client();
+const ok=async q=>{const {data,error}=await q;if(error)throw error;return data;};
+const {user}=await ok(owner.auth.signInWithPassword({email:"steve@gmail.com",password:"pass123"}));
+const {user:maria}=await ok(member.auth.signInWithPassword({email:"maria@gmail.com",password:"pass123"}));
+await ok(outsider.auth.signInWithPassword({email:"peter@gmail.com",password:"pass123"}));
+const project=await ok(owner.rpc("create_project_with_stages",{p_title:"Label verification"}));
+const other=await ok(owner.rpc("create_project_with_stages",{p_title:"Label isolation verification"}));
+let keep=false;
+try {
+  await ok(owner.from("project_members").insert({project_id:project,user_id:maria.id}));
+  const stages=await ok(owner.from("project_stages").select("*").eq("project_id",project).order("position"));
+  const tasks=await ok(owner.from("tasks").insert(Array.from({length:25},(_,i)=>({project_id:project,stage_id:stages[i%3].id,title:"Launch checklist "+String(i+1).padStart(2,"0"),position:Math.floor(i/3),done:i%3===2}))).select());
+  const label=await saveLabel(project,null,"Release","#78935f"),bug=await saveLabel(project,null,"Needs review","#c78091");
+  await assert.rejects(saveLabel(project,null,"release","#78935f"));
+  for(const task of tasks)await setTaskLabel(project,task.id,label.id,true);
+  await setTaskLabel(project,tasks[0].id,bug.id,true);
+  assert.equal((await taskLabelIds(tasks[0].id)).length,2);
+  assert.equal((await labeledTaskPage(project,label.id,1)).tasks.length,20);
+  assert.equal((await labeledTaskPage(project,label.id,2)).tasks.length,5);
+  assert.equal((await labeledTaskPage(project,label.id)).count,25);
+  assert.equal((await labeledTaskPage(project,bug.id)).count,1);
+  const board=await loadPagedBoard(project,user);
+  assert.equal(board.tasks.find(t=>t.id===tasks[0].id).labels.length,2);
+  const revised=await ok(member.from("project_labels").update({name:"Review"}).eq("id",bug.id).select().single());
+  assert.equal(revised.name,"Review");
+  assert.deepEqual(await ok(outsider.from("project_labels").select("*").eq("project_id",project)),[]);
+  assert.deepEqual(await ok(outsider.from("task_labels").select("*").eq("project_id",project)),[]);
+  assert.ok((await outsider.from("project_labels").insert({project_id:project,name:"Forbidden"})).error);
+  assert.deepEqual(await ok(outsider.from("project_labels").delete().eq("id",label.id).select()),[]);
+  const alien=await saveLabel(other,null,"Other project","#78935f");
+  assert.ok((await owner.from("task_labels").insert({project_id:project,task_id:tasks[0].id,label_id:alien.id})).error);
+  const before=(await ok(owner.from("project_task_changes").select("revision").eq("project_id",project).single())).revision;
+  await setTaskLabel(project,tasks[0].id,bug.id,false);
+  const after=(await ok(owner.from("project_task_changes").select("revision").eq("project_id",project).single())).revision;
+  assert.notEqual(before,after);
+  await deleteLabel(bug.id);
+  assert.equal((await ok(owner.from("tasks").select("id").eq("project_id",project))).length,25);
+  assert.equal((await taskLabelIds(tasks[0].id)).length,1);
+  await ok(owner.from("project_members").delete().eq("project_id",project).eq("user_id",maria.id));
+  assert.deepEqual(await ok(member.from("project_labels").select("*").eq("project_id",project)),[]);
+  assert.ok((await member.from("task_labels").insert({project_id:project,task_id:tasks[0].id,label_id:label.id})).error);
+  await ok(owner.from("project_members").insert({project_id:project,user_id:maria.id}));
+  console.log("PASS: multi-label persistence, paged filtering, board chips, collaborator edits, duplicate/outsider/revoked-member denial, cross-project constraints, invalidation and safe label deletion.");
+  if(process.env.KEEP_LABEL_PREVIEW==="1") {
+    writeFileSync(".sites-runtime/label-preview.json",JSON.stringify({project,task:tasks[0].id,label:label.id}));
+    console.log({project,task:tasks[0].id,label:label.id});keep=true;
+  }
+} finally {
+  if(!keep)await ok(owner.from("projects").delete().eq("id",project));
+  await ok(owner.from("projects").delete().eq("id",other));
+  await Promise.all([owner,member,outsider].map(c=>c.auth.signOut({scope:"local"})));
+}
+process.exit(0);

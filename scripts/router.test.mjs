@@ -12,6 +12,7 @@ test("requested routes resolve, including project IDs and trailing slashes", () 
     "/account",
     "/projects/board-123/tasks",
     "/project/board-123/tasks",
+    "/project/board-123/labels",
     "/projects/board-123/users",
     "/admin",
     "/admin/projects",
