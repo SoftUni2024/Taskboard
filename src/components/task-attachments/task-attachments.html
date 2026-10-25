@@ -1,0 +1,20 @@
+<section class="task-attachments mt-4" aria-label="Task attachments">
+  <h3>Attachments</h3>
+  <p class="small text-muted" data-attachment-hint>
+    Screenshots and documents, up to 10 MB each. Files are saved immediately.
+  </p>
+  <label class="form-label" for="task-files">Attach files</label>
+  <input
+    id="task-files"
+    type="file"
+    class="form-control"
+    multiple
+    data-files
+    aria-describedby="attachment-types"
+  />
+  <p class="attachment-types" id="attachment-types">
+    PNG, JPG, GIF, WebP, PDF, TXT, CSV, Markdown, Word, Excel, PowerPoint, ODT.
+  </p>
+  <p class="small text-muted" role="status" data-attachment-status></p>
+  <ul class="attachment-list" data-attachment-list></ul>
+</section>

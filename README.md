@@ -71,3 +71,5 @@ Tests cover Auth service behavior, registration-session requirements, expired se
 ## Hosting
 
 Sites configuration is in `.openai/hosting.json`. The Cloudflare Vite plugin builds `dist/client` and `dist/server`. The Site remains private under its existing hosting access policy. The hosting sign-in gate is separate from Task Board's Supabase email/password login. Supabase migrations are applied to Supabase separately from Site deployments; do not put them in the legacy D1 migration folder.
+
+Task attachments use the private Supabase Storage bucket `task-attachments`. Open an existing task to upload screenshots or documents (10 MB per file), download them, or confirm removal. Create new tasks before adding files. Uploads save immediately, independently of task detail edits. Supported formats are PNG, JPEG, GIF, WebP, PDF, TXT, CSV, Markdown, Word, Excel, PowerPoint, and ODT. Storage RLS checks the signed-in user and the owning project/task for every operation; bucket restrictions also enforce MIME types and file size. The app removes stored files before deleting their task or project. Deleting rows directly outside the app requires separate Storage cleanup.

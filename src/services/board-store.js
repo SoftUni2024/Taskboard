@@ -1,6 +1,10 @@
 import { supabase } from "./supabase.js";
 import { auth, appUser } from "./auth.js";
 import { sanitizeRichText } from "./rich-text.js";
+import {
+  removeTaskAttachments,
+  removeProjectAttachments,
+} from "./attachments.js";
 
 async function result(query) {
   const { data, error } = await query;
@@ -135,6 +139,7 @@ export async function mutateBoard(action, values) {
         .single(),
     );
   } else if (action === "deleteProject") {
+    await removeProjectAttachments(project);
     await result(
       supabase
         .from("projects")
@@ -197,6 +202,7 @@ export async function mutateBoard(action, values) {
       );
     }
   } else if (action === "deleteTask") {
+    await removeTaskAttachments(project, id);
     await result(
       supabase
         .from("tasks")

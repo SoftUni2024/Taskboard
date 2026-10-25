@@ -1,0 +1,46 @@
+.task-attachments {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.task-attachments h3 {
+  font-size: 17px;
+  margin-bottom: 12px;
+}
+.attachment-types {
+  font-size: 10px;
+  color: #849475;
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.attachment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.attachment-list li {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+  margin-top: 10px;
+}
+.attachment-filename {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  display: block;
+  font-weight: 600;
+}
+.attachment-meta {
+  font-size: 10px;
+  color: #849475;
+  display: block;
+  margin: 4px 0 8px;
+}
+.attachment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.attachment-actions button {
+  font-size: 11px;
+}
