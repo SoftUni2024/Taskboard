@@ -1,7 +1,7 @@
 import template from "./dashboard.html?raw";
 import "./dashboard.css";
 import { requireUser } from "../../services/api.js";
-import { projectForm } from "../../components/project-form/project-form.js";
+import { navigate } from "../../router.js";
 import { projectCard } from "../../components/project-card/project-card.js";
 import { closeDialogs } from "../../components/dialog/dialog.js";
 export { template };
@@ -32,7 +32,7 @@ export async function mount(root) {
   root.querySelector("[data-empty]").textContent = !projects.length
     ? "Your workspace is ready. Create your first project to get started."
     : "";
-  root.querySelector("[data-new]").onclick = () => projectForm();
-  root.querySelector("[data-start]").onclick = () => projectForm();
+  root.querySelector("[data-new]").onclick = () => navigate("/project/add");
+  root.querySelector("[data-start]").onclick = () => navigate("/project/add");
   return closeDialogs;
 }

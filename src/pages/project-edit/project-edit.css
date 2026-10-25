@@ -1,0 +1,8 @@
+.project-edit-page {
+  max-width: 780px;
+  margin: 0 auto;
+}
+.project-edit-page .page-heading p {
+  overflow-wrap: anywhere;
+  max-width: 550px;
+}

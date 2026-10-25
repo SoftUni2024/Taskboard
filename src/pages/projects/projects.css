@@ -11,11 +11,135 @@
 .projects-toolbar > span {
   white-space: nowrap;
 }
-.projects-toolbar ~ [data-empty]:empty {
-  display: none;
+.projects-table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: white;
+}
+.projects-table {
+  table-layout: fixed;
+  min-width: 940px;
+  --bs-table-bg: transparent;
+  --bs-table-border-color: #edf0e5;
+  color: var(--ink);
+}
+.projects-table thead {
+  background: #f1f5e9;
+}
+.projects-table th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #80916c;
+  padding: 17px 20px;
+  border-bottom: 1px solid #e3ead8;
+  white-space: nowrap;
+}
+.projects-table th:nth-child(1) {
+  width: 22%;
+}
+.projects-table th:nth-child(2) {
+  width: 27%;
+}
+.projects-table th:nth-child(3) {
+  width: 8%;
+}
+.projects-table th:nth-child(4) {
+  width: 11%;
+}
+.projects-table th:nth-child(5) {
+  width: 11%;
+}
+.projects-table th:nth-child(6) {
+  width: 21%;
+}
+.projects-table td {
+  padding: 22px 20px;
+  font-size: 12px;
+}
+.projects-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.project-title-link {
+  font-family: Manrope, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #405637;
+  overflow-wrap: anywhere;
+}
+.project-title-link:hover {
+  text-decoration: underline;
+}
+.project-description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #98a38d;
+  font-size: 11px;
+  max-width: 100%;
+}
+.project-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  background: #eff3e8;
+  color: #8a9c74;
+  font-size: 12px;
+}
+.open-number {
+  background: #fbf2e1;
+  color: #b39a66;
+}
+.done-number {
+  background: #eaf2e3;
+  color: #7e9968;
+}
+.project-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 12px;
+  align-items: center;
+}
+.project-row-actions a,
+.project-row-actions button {
+  font-size: 10px;
+  padding: 0;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  color: #899b75;
+  white-space: nowrap;
+}
+.project-row-actions a:hover,
+.project-row-actions button:hover {
+  text-decoration: underline;
+}
+.project-row-actions .view-tasks-link {
+  width: 100%;
+  color: #526f3f;
+  font-weight: 600;
+}
+.project-row-actions .delete-project {
+  color: #b37c69;
+}
+.projects-table .projects-empty {
+  padding: 55px 20px;
+  text-align: center;
+  color: #98a78a;
+  font-size: 13px;
 }
 @media (max-width: 576px) {
   .projects-toolbar .search-box {
-    max-width: 200px;
+    max-width: 190px;
+  }
+  .projects-table td {
+    padding: 18px;
+  }
+  .projects-table th {
+    padding: 16px 18px;
   }
 }

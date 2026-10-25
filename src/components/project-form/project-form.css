@@ -1,6 +1,41 @@
-.color-choices {
-  margin-bottom: 8px;
+.project-details-form {
+  padding: 30px;
 }
-.color-choice:hover {
-  transform: scale(1.08);
+.project-details-form fieldset {
+  min-width: 0;
+}
+.project-details-form textarea {
+  min-height: 190px;
+  line-height: 1.8;
+  resize: vertical;
+}
+.description-help {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  margin-top: 9px;
+  font-size: 10px;
+  color: #9aa78b;
+}
+.description-help > span:last-child {
+  white-space: nowrap;
+}
+.project-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 23px;
+  margin-top: 27px;
+}
+@media (max-width: 576px) {
+  .project-details-form {
+    padding: 23px;
+  }
+  .description-help {
+    font-size: 9px;
+  }
+  .project-form-actions .btn {
+    font-size: 11px;
+  }
 }

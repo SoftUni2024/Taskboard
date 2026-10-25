@@ -3,7 +3,7 @@ import "./tasks.css";
 import { requireUser, getBoard, api, showError } from "../../services/api.js";
 import { taskCard } from "../../components/task-card/task-card.js";
 import { taskForm } from "../../components/task-form/task-form.js";
-import { projectForm } from "../../components/project-form/project-form.js";
+import { navigate } from "../../router.js";
 import { closeDialogs } from "../../components/dialog/dialog.js";
 export { template };
 export const title = "Project tasks";
@@ -118,7 +118,7 @@ export async function mount(root, { id }) {
   search.oninput = render;
   root.querySelector("[data-add]").onclick = () => openTask();
   root.querySelector("[data-settings]").onclick = () =>
-    projectForm(data.project, refresh);
+    navigate(`/project/${id}/edit`);
   root.querySelector("[data-refresh]").onclick = () =>
     refresh().catch((e) => showError(root, e));
   render();

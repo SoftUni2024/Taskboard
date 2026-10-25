@@ -21,7 +21,9 @@ Open `http://127.0.0.1:5173`. Browser configuration in `src/services/supabase.js
 | `/login` | Email/password login and registration |
 | `/login?mode=register` | Registration mode |
 | `/dashboard` | Current user's projects and progress |
-| `/projects` | Searchable list of the current user's projects |
+| `/projects` | Searchable project table with descriptions, stage counts, and open/done task totals |
+| `/project/add` | Create a project with three default stages |
+| `/project/{id}/edit` | Edit an owned project's title and description |
 | `/projects/{id}/tasks` | Current user's project board |
 | `/account` | Display-name settings and logout |
 

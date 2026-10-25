@@ -3,9 +3,9 @@
     <div>
       <div class="eyebrow">YOUR IDEAS, TAKING SHAPE</div>
       <h1>Your projects</h1>
-      <p>Find your next step, one project at a time.</p>
+      <p>A clear view of every project, from the first step to the finish.</p>
     </div>
-    <button class="btn btn-primary" data-new>＋ New project</button>
+    <a class="btn btn-primary" href="/project/add" data-link>＋ New project</a>
   </div>
   <div class="projects-toolbar">
     <span class="text-muted small" data-count></span
@@ -16,9 +16,28 @@
       placeholder="Search projects…"
     />
   </div>
-  <div class="row g-4" data-projects></div>
-  <p class="empty-state" data-empty></p>
-  <a href="/dashboard" data-link class="small text-muted text-decoration-none"
+  <div class="projects-table-wrap table-responsive">
+    <table class="table projects-table align-middle mb-0">
+      <caption class="visually-hidden">
+        Your projects with stage counts, task totals, and management actions.
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col" class="text-center">Stages</th>
+          <th scope="col" class="text-center">Open Tasks</th>
+          <th scope="col" class="text-center">Tasks Done</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody data-projects></tbody>
+    </table>
+  </div>
+  <a
+    href="/dashboard"
+    data-link
+    class="small text-muted text-decoration-none d-inline-block mt-4"
     >← Back to Dashboard</a
   >
 </section>

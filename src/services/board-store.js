@@ -79,15 +79,22 @@ export async function loadBoard(project, signal) {
     };
   }
   const projects = await result(
-    supabase.from("projects").select("*, tasks(id, done)").order("title"),
+    supabase
+      .from("projects")
+      .select("*, project_stages(count), tasks(count), done_tasks:tasks(count)")
+      .eq("done_tasks.done", true)
+      .order("title"),
   );
   return {
     user,
-    projects: projects.map(({ tasks, ...project }) => ({
-      ...projectView(project),
-      total: tasks.length,
-      done: tasks.filter((task) => task.done).length,
-    })),
+    projects: projects.map(
+      ({ tasks, done_tasks, project_stages, ...project }) => ({
+        ...projectView(project),
+        stage_count: project_stages[0]?.count ?? 0,
+        total: tasks[0]?.count ?? 0,
+        done: done_tasks[0]?.count ?? 0,
+      }),
+    ),
   };
 }
 
@@ -155,13 +162,11 @@ export async function mutateBoard(action, values) {
     };
     if (action === "createTask") {
       await result(
-        supabase
-          .from("tasks")
-          .insert({
-            ...row,
-            project_id: project,
-            position: await lastPosition(project, target.id),
-          }),
+        supabase.from("tasks").insert({
+          ...row,
+          project_id: project,
+          position: await lastPosition(project, target.id),
+        }),
       );
     } else {
       // The RPC handles cross-column movement transactionally with the same RLS.

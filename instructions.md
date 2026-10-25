@@ -13,7 +13,9 @@ Keep the responsive, calm green visual style. Label inputs and icon controls; su
 - `/`: visitor landing page with register/login links.
 - `/login`: login/register forms; `?mode=register` selects registration.
 - `/dashboard`: signed-in home with counts for projects and total/open/done tasks; link to Projects.
-- `/projects`: searchable list of the current user's projects.
+- `/projects`: searchable table of owned projects, truncated descriptions, stage counts, and aggregate open/done task counts. Link to View Tasks and edit; confirm deletion in a popup.
+- `/project/add`: separate project creation page; create three default stages atomically.
+- `/project/{id}/edit`: separate owner-only project editing page.
 - `/projects/{id}/tasks`: owner-only task board and project settings.
 - `/account`: display name and logout.
 Successful login/registration goes to `/dashboard`; logout goes to `/`. Signed-out users cannot open protected pages. Handle back/forward navigation and deep-link refreshes.
