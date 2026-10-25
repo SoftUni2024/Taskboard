@@ -3,6 +3,7 @@ import "./task-form.css";
 import { openDialog, confirmDelete } from "../dialog/dialog.js";
 import { api, notify, notifyError } from "../../services/api.js";
 import { mountTaskAttachments } from "../task-attachments/task-attachments.js";
+import { mountTaskComments } from "../task-comments/task-comments.js";
 export function taskForm(project, task, stage, onSaved, stages) {
   const dialog = openDialog({
     title: task ? "Edit task" : "Add New Task",
@@ -12,6 +13,12 @@ export function taskForm(project, task, stage, onSaved, stages) {
       ? '<button type="button" class="danger-link" data-delete>Delete task</button>'
       : "",
     onMount(root) {
+      const stopComments = mountTaskComments(
+        root.querySelector("[data-task-comments]"),
+        project,
+        task,
+      );
+      root.addEventListener("hidden.bs.modal", stopComments, { once: true });
       const stopAttachments = mountTaskAttachments(
         root.querySelector("[data-task-attachments]"),
         project,

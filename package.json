@@ -11,7 +11,7 @@
     "preview": "node --import ./scripts/sites-env.mjs ./node_modules/vite/bin/vite.js preview --host 127.0.0.1",
     "install:ci": "node scripts/install-ci.mjs",
     "db:generate": "drizzle-kit generate",
-    "test": "node scripts/test-board.mjs && node --test scripts/paging.test.mjs scripts/task-sync.test.mjs scripts/attachments.test.mjs scripts/board-drag.test.mjs scripts/router.test.mjs scripts/seed-users.test.mjs scripts/seed-projects.test.mjs scripts/auth.test.mjs",
+    "test": "node scripts/test-board.mjs && node --test scripts/comment-rules.test.mjs scripts/paging.test.mjs scripts/task-sync.test.mjs scripts/attachments.test.mjs scripts/board-drag.test.mjs scripts/router.test.mjs scripts/seed-users.test.mjs scripts/seed-projects.test.mjs scripts/auth.test.mjs",
     "seed:users": "node --env-file-if-exists=.env.seed scripts/seed-users.mjs",
     "seed:projects": "node --env-file-if-exists=.env.seed scripts/seed-projects.mjs",
     "seed:scale": "node --env-file-if-exists=.env.admin scripts/seed-scale.mjs"

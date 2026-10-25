@@ -42,3 +42,6 @@ Use `/admin`, `/admin/projects/{id}`, and `/admin/users` for administration. Kee
 
 ## Pagination and larger datasets
 Fetch Projects in pages of 20 with database-side search and exact counts. Load task-column prefixes in 20-card increments using per-column scroll observers and a manual Load more fallback. Preserve loaded limits and scroll positions during live refreshes. Disable reordering while searching; drops after a partially loaded column must insert before its next unloaded task. Use the deterministic `seed:scale` script for the 100+ project / 120-task-per-project sample dataset.
+
+## Task comments
+Use the task-comments component in existing task popups. Keep comments plain text with a 4,000-character limit, safe text rendering, newest-first paging, independent saves, author/time and edited markers. Owners/members/admins can read/post; only authors or admins can edit/delete, enforced by RLS and body-only update grants. Preserve drafts during live invalidation refreshes and remove listeners on popup close. Cascade comments with tasks and preserve discussion when an Auth author is removed.
